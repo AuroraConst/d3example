@@ -63,7 +63,7 @@ object d3example:
     def update: FrameRequestCallback =
       (time: Double) =>
 
-        if geometry.coordinates.length < 100 then addPoint()
+        if geometry.coordinates.length < 6000 then addPoint()
 
         projection.rotate(js.Tuple2(time / 100, 1.0))
 
