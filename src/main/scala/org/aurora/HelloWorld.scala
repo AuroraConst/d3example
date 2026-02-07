@@ -16,7 +16,7 @@ object HelloWorld {
     val nameVar = Var(initial = "world")
     div(
       cls("HelloWorld"),
-      label("Your namesxxxx: "),
+      label("Your names: "),
       input(
         onMountFocus,
         placeholder := "Enter your name here",
@@ -24,7 +24,7 @@ object HelloWorld {
       ),
       div(
         cls("-greeting"),
-        "Hello there, ",
+        "Hello there: ",
         text <-- nameVar.signal.map(_.toUpperCase)
       )
     )

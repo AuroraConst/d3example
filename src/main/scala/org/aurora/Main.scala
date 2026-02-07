@@ -13,12 +13,15 @@ val _ = Stylesheet // Use import to prevent DCE
 
 @main def main(): Unit = {
 
-  val canvas = dom.document.getElementById("examplecanvas").asInstanceOf[dom.html.Canvas]
-  type Ctx2D = dom.CanvasRenderingContext2D
-  val ctx = canvas.getContext("2d").asInstanceOf[Ctx2D]
-  ctx.fillStyle = "blue"
-  ctx.fillRect(10, 10, 100, 100)
+  //draws animated rotating globe and random lines around it 
+  val d3ctx = CanvasContext.context("d3canvas")
+  d3example.start(d3ctx)
   
+
+  //draws blue rectangle
+  val ctx = CanvasContext.context("examplecanvas") 
+  ctx.fillStyle = "blue"
+  ctx.fillRect(10, 10, 200, 150)
 
   renderOnDomContentLoaded(
     container = dom.document.querySelector("#app"),

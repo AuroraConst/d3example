@@ -7,7 +7,10 @@ import typings.geojson.mod.{LineString, Position}
 
 import org.scalajs.dom.{document}
 import typings.std.global.{console, document, window}
-import typings.std.{CanvasRenderingContext2D, FrameRequestCallback, HTMLCanvasElement, stdStrings}
+import typings.std.{ FrameRequestCallback, HTMLCanvasElement, stdStrings}
+
+
+import org.scalajs.dom.{CanvasRenderingContext2D,Console}
 
 import scala.scalajs.js
 import scala.scalajs.js.|
@@ -26,26 +29,6 @@ object d3example:
     
 
 
-  
-  def main(): Unit =
-    val maybeContext: CanvasRenderingContext2D | Null = ???
-      import org.scalajs.dom.CanvasRenderingContext2D
-      import org.scalajs.dom.html.Canvas
-      import com.raquo.laminar.api.L.*
-      // import org.scalajs.dom.document
-      //TODO: finish getting
-      
-
-
-
-    //   document
-    //     .getElementsByTagName("content")
-    //     .item(0)
-    //     .andThen(_.getContext("2d"))
-
-    // if maybeContext != null then start(maybeContext)
-    // else sys.error("Cannot get 2d context")
-  end main
 
   def start(context: CanvasRenderingContext2D): Double =
     context.lineWidth = 0.4
@@ -56,7 +39,7 @@ object d3example:
     val size   = width min height
 
     d3Mod
-      .select("#content")
+      .select("#d3canvas")
       .attr("width", s"${width}px")
       .attr("height", s"${height}px")
 
@@ -79,6 +62,7 @@ object d3example:
 
     def update: FrameRequestCallback =
       (time: Double) =>
+
         if geometry.coordinates.length < 6000 then addPoint()
 
         projection.rotate(js.Tuple2(time / 100, 1.0))
@@ -88,6 +72,8 @@ object d3example:
 
         geoGenerator(geometry, null.asInstanceOf[js.Any])
         context.stroke()
+        // context.fillStyle = "rgba(255, 255, 255, 0.6)"
+        // context.fillRect(0, 0, 15, 15)
 
         window.requestAnimationFrame(update)
 
