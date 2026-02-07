@@ -63,7 +63,7 @@ object d3example:
     def update: FrameRequestCallback =
       (time: Double) =>
 
-        if geometry.coordinates.length < 6000 then addPoint()
+        if geometry.coordinates.length < 100 then addPoint()
 
         projection.rotate(js.Tuple2(time / 100, 1.0))
 
@@ -72,8 +72,8 @@ object d3example:
 
         geoGenerator(geometry, null.asInstanceOf[js.Any])
         context.stroke()
-        // context.fillStyle = "rgba(255, 255, 255, 0.6)"
-        // context.fillRect(0, 0, 15, 15)
+        context.fillStyle = "rgba(55, 255, 255, 0.6)"
+        context.fillRect(0, 0, 15, 15)
 
         window.requestAnimationFrame(update)
 
