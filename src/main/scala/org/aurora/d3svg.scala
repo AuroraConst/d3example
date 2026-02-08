@@ -28,7 +28,6 @@ object d3svg:
   import js.JSConverters._
   val dataAsJsArray = data.toJSArray
 
-  //TODO I don't think I need context for svg
   def start(): Unit = 
     val svg = d3Mod.select(s"#$svgId")
       .attr("width", s"${window.innerWidth}px")
