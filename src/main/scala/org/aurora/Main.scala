@@ -16,10 +16,10 @@ val _ = Stylesheet // Use import to prevent DCE
   //draws animated rotating globe and random lines around it 
   // val d3ctx = CanvasContext.context("d3canvas")
   d3example.start
-  d3svg.start()
-  
 
-  //draws blue rectangle
+  //draws circles in svg
+  d3svg.start()
+
 
   renderOnDomContentLoaded(
     container = dom.document.querySelector("#app"),
