@@ -21,7 +21,7 @@ object d3svg:
   case class CircleData(id: Double,radius:Double, color: String, x: Double, y: Double)
 
 
-  val data = (1 to 250).map{i =>
+  val data = (1 to 550).map{i =>
     CircleData(i, 10 + Math.random() * 20, s"hsl(${Math.random() * 360}, 100%, 50%)", Math.random() * window.innerWidth, Math.random() * window.innerHeight)
   }.toSeq
 
@@ -44,13 +44,8 @@ object d3svg:
 
     val x = (thisArg: SVGCircleElement, cd: CircleData, index: Double, array: js.Array[CircleData]) => cd.x
 
-    def callback[DATUM,R](f: (i:DATUM)=> R): ValueFn[SVGCircleElement, DATUM, R] =
-        (thisArg: SVGCircleElement, data: DATUM, index: Double, array: js.Array[SVGCircleElement] | typings.d3Selection.mod.ArrayLike[SVGCircleElement]) => f(data)
-
-
-    val z: ValueFn[SVGCircleElement, CircleData, Double] =   (thisArg: SVGCircleElement, cd: CircleData, index: Double, array: js.Array[SVGCircleElement] | typings.d3Selection.mod.ArrayLike[SVGCircleElement]) => cd.y
-      
-      
+    def callback[SVGELEMENT,DATUM,R](f: (i:DATUM)=> R): ValueFn[SVGELEMENT, DATUM, R] =
+        (thisArg: SVGELEMENT, data: DATUM, index: Double, array: js.Array[SVGELEMENT] | typings.d3Selection.mod.ArrayLike[SVGELEMENT]) => f(data)
 
 
     val a = svg.selectAll[SVGCircleElement, CircleData]("circle")
