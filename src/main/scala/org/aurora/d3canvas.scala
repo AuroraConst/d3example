@@ -16,7 +16,7 @@ import scala.scalajs.js
 import scala.scalajs.js.|
 
 
-object d3example:
+object d3canvas:
     // not used...
     // where is my `?.` :( :(
   extension [T](ot: T | Null)
@@ -81,4 +81,4 @@ object d3example:
 
     window.requestAnimationFrame(update)
   end start
-end d3example
+end d3canvas
