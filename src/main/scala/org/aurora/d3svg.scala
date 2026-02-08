@@ -6,8 +6,7 @@ import typings.std.global.{console, window}
 
 import scala.scalajs.js
 import org.scalajs.dom.{SVGCircleElement}
-import typings.d3Selection.mod.{ValueFn}
-
+import typings.d3Selection.mod.{ValueFn,ArrayLike}
 
 object d3svg:
   case class CircleData(id: Double,radius:Double, color: String, x: Double, y: Double)
@@ -21,7 +20,7 @@ object d3svg:
 
   //this was hell figuring this out!!
   def callback[SVGELEMENT,DATUM,R](f: (i:DATUM)=> R): ValueFn[SVGELEMENT, DATUM, R] =
-      (thisArg: SVGELEMENT, data: DATUM, index: Double, array: js.Array[SVGELEMENT] | typings.d3Selection.mod.ArrayLike[SVGELEMENT]) => f(data)
+      (thisArg: SVGELEMENT, data: DATUM, index: Double, array: js.Array[SVGELEMENT] | ArrayLike[SVGELEMENT]) => f(data)
 
 
   def start(): Unit = 
