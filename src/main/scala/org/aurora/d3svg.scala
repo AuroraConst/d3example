@@ -7,19 +7,20 @@ import typings.std.global.{console, window}
 import scala.scalajs.js
 import org.scalajs.dom.{SVGCircleElement}
 import typings.d3Selection.mod.{ValueFn,ArrayLike}
+import org.scalajs.dom.SVGElement
 
 object d3svg:
   case class CircleData(id: Double,radius:Double, color: String, x: Double, y: Double)
 
 
   import js.JSConverters._
-  val data = (1 to 5550).map{i =>
+  val data = (1 to 550).map{i =>
     CircleData(i, 10 + Math.random() * 20, s"hsl(${Math.random() * 360}, 100%, 50%)", Math.random() * window.innerWidth, Math.random() * window.innerHeight)
   }.toSeq.toJSArray
 
 
   //this was hell figuring this out!!
-  def callback[SVGELEMENT,DATUM,R](f: (i:DATUM)=> R): ValueFn[SVGELEMENT, DATUM, R] =
+  def callback[SVGELEMENT <: SVGElement,DATUM,R](f: (i:DATUM)=> R): ValueFn[SVGELEMENT, DATUM, R] =
       (thisArg: SVGELEMENT, data: DATUM, index: Double, array: js.Array[SVGELEMENT] | ArrayLike[SVGELEMENT]) => f(data)
 
 
@@ -37,7 +38,5 @@ object d3svg:
       .attr("cy", callback((cd:CircleData) => cd.y) )
       .attr("fill", callback((cd:CircleData) => cd.color) )
       .attr("r", callback((cd:CircleData) => cd.radius) )
-
-
 
 end d3svg

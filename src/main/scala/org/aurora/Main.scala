@@ -26,7 +26,7 @@ val _ = Stylesheet // Use import to prevent DCE
     rootNode = {
       div(
         cls("Main"),
-        h1("Laminar Template"),
+        h1("Laminar Template (scroll down to see d3 examples)"),
         HelloWorld(),
       )
     }
