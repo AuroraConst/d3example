@@ -17,11 +17,12 @@ import scala.scalajs.js.|
 
 
 object d3example:
+    // not used...
     // where is my `?.` :( :(
   extension [T](ot: T | Null)
     def andThen[U](f: T => U | Null): U | Null =
-      if ot != null then f(ot.asInstanceOf[T]) else null // todo: revisit with explicit nulls
 
+      if ot != null then f(ot.asInstanceOf[T]) else null // todo: revisit with explicit nulls
   // this conforms structurally
   def isGeoContext(ctx: CanvasRenderingContext2D): GeoContext =
     ctx.asInstanceOf[GeoContext]
@@ -30,7 +31,7 @@ object d3example:
 
 
 
-  def start(context: CanvasRenderingContext2D): Double =
+  def start(using context: CanvasRenderingContext2D): Double =
     context.lineWidth = 0.4
     context.strokeStyle = "rgba(255, 255, 255, 0.6)"
 
@@ -42,6 +43,7 @@ object d3example:
       .select("#d3canvas")
       .attr("width", s"${width}px")
       .attr("height", s"${height}px")
+      .style("border", "1px solid black")
 
     val projection: GeoProjection_ =
       d3Mod
