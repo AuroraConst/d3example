@@ -21,6 +21,7 @@ val _ = Stylesheet // Use import to prevent DCE
   d3svg.start()
 
 
+  //when dom is loaded creates basic form
   renderOnDomContentLoaded(
     container = dom.document.querySelector("#app"),
     rootNode = {
