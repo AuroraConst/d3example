@@ -21,7 +21,7 @@ object d3svg:
   case class CircleData(id: Double,radius:Double, color: String, x: Double, y: Double)
 
 
-  val data = (1 to 550).map{i =>
+  val data = (1 to 5550).map{i =>
     CircleData(i, 10 + Math.random() * 20, s"hsl(${Math.random() * 360}, 100%, 50%)", Math.random() * window.innerWidth, Math.random() * window.innerHeight)
   }.toSeq
 
@@ -35,20 +35,14 @@ object d3svg:
       .attr("height", s"${window.innerHeight}px")
       .style("border", "1px solid black")
 
-    val width  = window.innerWidth
-    val height = window.innerHeight
-    val size   = width min height
 
 
     import typings.d3Selection.mod.{ValueFn}
 
-    val x = (thisArg: SVGCircleElement, cd: CircleData, index: Double, array: js.Array[CircleData]) => cd.x
-
     def callback[SVGELEMENT,DATUM,R](f: (i:DATUM)=> R): ValueFn[SVGELEMENT, DATUM, R] =
         (thisArg: SVGELEMENT, data: DATUM, index: Double, array: js.Array[SVGELEMENT] | typings.d3Selection.mod.ArrayLike[SVGELEMENT]) => f(data)
 
-
-    val a = svg.selectAll[SVGCircleElement, CircleData]("circle")
+    svg.selectAll[SVGCircleElement, CircleData]("circle")
       .data(dataAsJsArray)
       .join("circle" )
       .attr("cx", callback((cd:CircleData) => cd.x) )
