@@ -6,8 +6,6 @@ import typings.std.global.{console, window}
 
 import scala.scalajs.js
 import org.scalajs.dom.{SVGCircleElement}
-import typings.d3Selection.mod.{ValueFn,ArrayLike}
-import org.scalajs.dom.SVGElement
 
 object d3svg:
   case class CircleData(id: Double,radius:Double, color: String, x: Double, y: Double)
@@ -18,10 +16,6 @@ object d3svg:
     CircleData(i, 10 + Math.random() * 20, s"hsl(${Math.random() * 360}, 100%, 50%)", Math.random() * window.innerWidth, Math.random() * window.innerHeight)
   }.toSeq.toJSArray
 
-
-  //this was hell figuring this out!!
-  def callback[SVGELEMENT <: SVGElement,DATUM,R](f: (i:DATUM)=> R): ValueFn[SVGELEMENT, DATUM, R] =
-      (thisArg: SVGELEMENT, data: DATUM, index: Double, array: js.Array[SVGELEMENT] | ArrayLike[SVGELEMENT]) => f(data)
 
 
   def start(): Unit = 
@@ -34,9 +28,13 @@ object d3svg:
     svg.selectAll[SVGCircleElement, CircleData]("circle")
       .data(data)
       .join("circle" )
-      .attr("cx", callback((cd:CircleData) => cd.x) )
-      .attr("cy", callback((cd:CircleData) => cd.y) )
-      .attr("fill", callback((cd:CircleData) => cd.color) )
-      .attr("r", callback((cd:CircleData) => cd.radius) )
+      .attr("cx", callback {(cd:CircleData) => cd.x })
+      .attr("cy", callback {(cd:CircleData) => cd.y })
+      .attr("fill", callback {(cd:CircleData) => cd.color })
+      .attr("r", {(cd:CircleData) => cd.radius }.toCallback)
+
+
+
+
 
 end d3svg

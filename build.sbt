@@ -6,7 +6,7 @@ lazy val root = project
   .enablePlugins(sbtplugin.ScalaJSPlugin,ScalablyTypedConverterExternalNpmPlugin)
   .settings(
     name := "d3example",
-    scalaVersion := "3.5.2",
+    scalaVersion := "3.7.4",
     scalacOptions ++= Seq("-encoding", "utf-8", "-deprecation", "-feature"),
 
     scalaJSUseMainModuleInitializer := true,
@@ -18,6 +18,8 @@ lazy val root = project
       baseDirectory.value
     },
 
+    resolvers += "jitpack" at "https://jitpack.io",
+    libraryDependencies += "com.github.fdietze.scala-js-d3v4" %%% "scala-js-d3v4" % "master-SNAPSHOT",
 
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "2.8.0",

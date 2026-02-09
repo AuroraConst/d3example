@@ -14,11 +14,14 @@ val _ = Stylesheet // Use import to prevent DCE
 @main def main(): Unit = {
 
   //draws animated rotating globe and random lines around it 
-  // val d3ctx = CanvasContext.context("d3canvas")
   d3canvas.start
 
   //draws circles in svg
   d3svg.start()
+
+  org.aurora.deitzfacade.d3svgchart.start()
+
+  // d3svgchart.start()
 
 
   //when dom is loaded creates basic form
