@@ -83,7 +83,7 @@ object d3svgchart:
   
 
   def start(): Unit = 
-    console.info(s"starting deitzfacde d3svgchart")
+    console.info(s"starting deitzfacade d3svgchart")
     // Declare the chart dimensions and margins.
     val width = 928;
     val height = 720;
@@ -155,6 +155,9 @@ object d3svgchart:
       .attr("stroke-width", 1.5)
       .attr("stroke-linejoin", "round")
       .attr("stroke-linecap", "round")
+      .transition()
+        .duration(5000)
+        
 
 
 

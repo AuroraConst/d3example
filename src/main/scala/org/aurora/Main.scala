@@ -19,7 +19,10 @@ val _ = Stylesheet // Use import to prevent DCE
   //draws circles in svg
   d3svg.start()
 
-  org.aurora.deitzfacade.d3svgchart.start()
+  //
+  d3svgsimple.start()
+
+  // org.aurora.deitzfacade.d3svgchart.start()
 
   // d3svgchart.start()
 

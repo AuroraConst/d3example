@@ -8,16 +8,30 @@ import scala.scalajs.js
 import typings.d3Selection.mod.{ValueFn,ArrayLike}
 import org.scalajs.dom.HTMLHtmlElement
 import org.scalajs.dom.HTMLElement
-
-
+import typings.d3Scale.mod.NumberValue
+import typings.d3Axis.mod.{AxisScale,AxisDomain}
 
 
 package object aurora :
   val svgId = "d3svg"
   val deitzsvgId = "deitzd3svg"
   val canvasId = "d3canvas"
+  val svgsimple = "d3svgsimple"
 
   val console = Console
+
+
+  extension(i:Int)  
+    def toNumberValue: NumberValue = 
+      val nv:NumberValue = i.toDouble; 
+      nv
+
+  import typings.d3Scale.mod.ScaleLinear_
+  extension [T] (s:ScaleLinear_[T,Nothing,Nothing])  
+    def toAxisScale: AxisScale[T] = s.asInstanceOf[AxisScale[T]]
+
+    
+
   
   given CanvasRenderingContext2D = CanvasContext.context(canvasId) //see index.html
   type Array[DATUM] = js.Array[DATUM] | ArrayLike[DATUM]
