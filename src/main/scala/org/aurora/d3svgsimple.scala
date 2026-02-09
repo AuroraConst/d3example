@@ -51,7 +51,7 @@ object d3svgsimple:
 
     
     svg.append("g")
-      .data(data)
+      .data(data)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
       .call(( s:SELECTIONTYPE, a: Axis[Double]) => 
               {
                 console.info("about to call Applying axis!!!!!!!!") 

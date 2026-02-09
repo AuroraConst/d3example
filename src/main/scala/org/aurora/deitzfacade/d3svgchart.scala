@@ -1,5 +1,9 @@
 package org.aurora.deitzfacade
 
+/**
+  *   TODO: thinking of deprecating and go scalablytyped all the way
+  */
+
 import org.aurora.*
 
 import d3v4.d3
