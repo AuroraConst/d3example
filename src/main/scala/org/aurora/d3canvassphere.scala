@@ -19,7 +19,7 @@ import scala.scalajs.js.|
 object d3canvassphere:
     // not used...
     // where is my `?.` :( :(
-  extension [T](ot: T | Null)
+  extension [T](ot: T | Null)  //not being used at this time but may be a useful idea in future
     def andThen[U](f: T => U | Null): U | Null =
 
       if ot != null then f(ot.asInstanceOf[T]) else null // todo: revisit with explicit nulls
