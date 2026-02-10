@@ -18,8 +18,6 @@ lazy val root = project
       baseDirectory.value
     },
 
-    resolvers += "jitpack" at "https://jitpack.io",
-    libraryDependencies += "com.github.fdietze.scala-js-d3v4" %%% "scala-js-d3v4" % "master-SNAPSHOT",
 
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "2.8.0",

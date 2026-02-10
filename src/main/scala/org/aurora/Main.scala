@@ -20,7 +20,7 @@ val _ = Stylesheet // Use import to prevent DCE
   d3svg.start()
 
   //
-  d3svgsimple.start()
+  d3svgaxis.start()
 
   // org.aurora.deitzfacade.d3svgchart.start()
 

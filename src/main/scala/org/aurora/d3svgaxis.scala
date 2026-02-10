@@ -21,10 +21,11 @@ import org.scalajs.dom.SVGSVGElement
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
 */
 
-object d3svgsimple:
+object d3svgaxis:
 
 
-  val data = (1 to 350).map{_.toDouble}.toJSArray
+  val data = (1 to 150).map{_.toDouble}.toJSArray
+  val datay = (1 to 50).map{_.toDouble * 2}.toJSArray
 
   def start(): Unit = 
     console.info("Starting d3svgsimple example")
@@ -40,25 +41,35 @@ object d3svgsimple:
 
 
     val xScale = d3Mod.scaleLinear()
-      .domain(js.Array(data.min,data.max).map{_.toDouble})
+      .domain(js.Array(data.min,data.max))
       .range(js.Array(0, width-5).map{_.toDouble})
+    val yScale = d3Mod.scaleLinear()
+      .domain(js.Array(datay.min,datay.max))
+      .range(js.Array(height-5, 0).map{_.toDouble})  
 
 
-    val xAxis = d3Mod.axisBottom(xScale.toAxisScale)
-
-    type SELECTIONTYPE = Selection_[SVGGElement|SVGSVGElement, Double, HTMLElement, Any]
-    type SELECTIONANY = Selection_[SVGGElement|SVGSVGElement, Any,Any,Any]
+    import org.aurora.d3.axis.*
+    val xAxis = d3Mod.axisTop(xScale.toAxisScale)//.ticks(25)
+    val yAxis = d3Mod.axisRight(yScale.toAxisScale)//.ticks(15)
 
     
     svg.append("g")
       .data(data)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
-      .call(( s:SELECTIONTYPE, a: Axis[Double]) => 
-              {
-                console.info("about to call Applying axis!!!!!!!!") 
-                a.apply(s.asInstanceOf[SELECTIONANY]) //this is the logic to draw the axis
-              } , xAxis)
+       .attr("transform", s"translate(0, $height)")
+      .callAxis(xAxis)
+
+    svg.append("g")  
+      .data(data)  
+      .attr("transform", s"translate(0, 0)")
+      .callAxis(yAxis)
 
 
+    svg.append("text")
+      .attr("x", width/2)
+      .attr("y", height/2)
+      .attr("text-anchor", "middle")
+      .attr("font-size", "16px")
+      .text("D3 Axis Example")
 
 
 

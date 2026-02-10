@@ -25,9 +25,6 @@ package object aurora :
       val nv:NumberValue = i.toDouble; 
       nv
 
-  extension [T] (s:ScaleLinear_[T,Nothing,Nothing])  
-    def toAxisScale: AxisScale[T] = s.asInstanceOf[AxisScale[T]]
-
     
 
   
