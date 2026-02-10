@@ -16,7 +16,7 @@ import scala.scalajs.js
 import scala.scalajs.js.|
 
 
-object d3canvas:
+object d3canvassphere:
     // not used...
     // where is my `?.` :( :(
   extension [T](ot: T | Null)
@@ -35,8 +35,8 @@ object d3canvas:
     context.lineWidth = 0.4
     context.strokeStyle = "rgba(255, 255, 255, 0.6)"
 
-    val width  = window.innerWidth
-    val height = window.innerHeight
+    val width  = 400//window.innerWidth
+    val height = 400//window.innerHeight
     val size   = width min height
 
     d3Mod
@@ -81,4 +81,3 @@ object d3canvas:
 
     window.requestAnimationFrame(update)
   end start
-end d3canvas

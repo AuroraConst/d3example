@@ -31,7 +31,7 @@ object d3svg:
       .attr("cx", callback {(cd:CircleData) => cd.x })
       .attr("cy", callback {(cd:CircleData) => cd.y })
       .attr("fill", callback {(cd:CircleData) => cd.color })
-      .attr("r", {(cd:CircleData) => cd.radius }.toCallback)
+      .attr("r", {(cd:CircleData) => cd.radius }.toCallback)  //alternative way to create the call back via extension method. not sure which way I like better
 
 
 

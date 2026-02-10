@@ -9,12 +9,12 @@ import scala.scalajs.js.annotation.JSImport
 @JSImport("@find/**/HelloWorld.less", JSImport.Namespace)
 @js.native private object Stylesheet extends js.Object
 
-val _ = Stylesheet // Use import to prevent DCE
+val _ = Stylesheet // force initialization to prevent DCE (Dead Code Elimination) from removing the stylesheet
 
 @main def main(): Unit = {
 
   //draws animated rotating globe and random lines around it 
-  d3canvas.start
+  d3canvassphere.start
 
   //draws circles in svg
   d3svg.start()
@@ -22,9 +22,6 @@ val _ = Stylesheet // Use import to prevent DCE
   //
   d3svgaxis.start()
 
-  // org.aurora.deitzfacade.d3svgchart.start()
-
-  // d3svgchart.start()
 
 
   //when dom is loaded creates basic form
