@@ -47,10 +47,11 @@ object d3svgcircles:
     type F = ValueFn[js.Dynamic,Any,Unit]
 
     var tf = true
-    def tfcolorf = Random.nextInt(3)  match 
+    def tfcolorf = Random.nextInt(8)  match 
       case 0 => "red"
       case 1 => "blue"
       case 2 => "green"
+      case _ => "black"
     
 
     def f: F = 
