@@ -45,7 +45,7 @@ object d3svgcircles:
     import typings.d3Transition.mod.Transition_
     type F = ValueFn[js.Dynamic,Any,Unit]
     def f: F = 
-      val x:F = (thisArg:js.Dynamic,x:Any,elem:Any,data:Any)  => {
+     (thisArg:js.Dynamic,d:Any,elem:Any,data:Any)  => {
         d3Mod.active(thisArg.asInstanceOf[Element])
           .transition()
           .duration(1500)
@@ -53,7 +53,7 @@ object d3svgcircles:
           
         console.info("Axis animation complete"); 
       }
-      x
+      
 
 
     circles.asInstanceOf[TRANSITION]
