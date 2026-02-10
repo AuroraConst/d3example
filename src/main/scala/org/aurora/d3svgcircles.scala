@@ -9,6 +9,7 @@ import org.scalajs.dom.{SVGCircleElement}
 import scala.collection.immutable.LazyList.cons
 import typings.d3Selection.mod.EnterElement
 import org.scalajs.dom.Element
+import scala.util.Random
 
 object d3svgcircles:
   case class CircleData(id: Double,radius:Double, color: String, x: Double, y: Double)
@@ -17,7 +18,7 @@ object d3svgcircles:
 
 
   import js.JSConverters._
-  val data = (1 to 550).map{i =>
+  val data = (1 to 551).map{i =>
     CircleData(i, 10 + Math.random() * 20, s"hsl(${Math.random() * 360}, 100%, 50%)", Math.random() * width, Math.random() * height)
   }.toSeq.toJSArray
 
@@ -44,23 +45,31 @@ object d3svgcircles:
     import typings.d3Selection.mod.ValueFn
     import typings.d3Transition.mod.Transition_
     type F = ValueFn[js.Dynamic,Any,Unit]
+
+    var tf = true
+    def tfcolorf = Random.nextInt(3)  match 
+      case 0 => "red"
+      case 1 => "blue"
+      case 2 => "green"
+    
+
     def f: F = 
      (thisArg:js.Dynamic,d:Any,elem:Any,data:Any)  => {
+
         d3Mod.active(thisArg.asInstanceOf[Element])
           .transition()
-          .duration(1500)
-          .style("fill", "white")
+          .duration(1000) 
+          .style("fill", tfcolorf)
+          .asInstanceOf[TRANSITION]
+          .on("end", f)
           
-        console.info("Axis animation complete"); 
       }
-      
-
 
     circles.asInstanceOf[TRANSITION]
-        .transition()
-        .duration(3000)
-        .style("fill", "black")
-        .on("end", f) 
+      .transition()
+      .duration(1500) 
+      .style("fill", "black")
+      .on("end", f) 
     
   
 
