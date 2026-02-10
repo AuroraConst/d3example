@@ -62,15 +62,21 @@ object d3svgaxis:
         .duration(2000)
         .style("color","red")
 
-
-    svg.append("g")  
-      .data(data)  
-      .attr("transform", s"translate(0, 0)")
+    svg.append("g")
+      .data(data)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
+       .transform(0,0)
+      //  .attr("transform", s"translate(0, $height)")
       .callAxis(yAxis)
       .asInstanceOf[TRANSITION]
-      .transition()
+        .transition()
         .duration(2000)
         .style("color","red")
+    
+
+
+    import typings.d3Selection.mod.ValueFn
+    type F = ValueFn[Any,Any,Unit]
+    val f: F = (thisArg:Any,x:Any,elem:Any,data:Any)  => console.info("Axis animation complete"); 
 
 
 
@@ -82,7 +88,7 @@ object d3svgaxis:
       .text("D3 Axis Example")
       .asInstanceOf[TRANSITION]
       .transition()
-        .duration(1000)
+        .duration(2000)
         .style("fill","blue")
 
 

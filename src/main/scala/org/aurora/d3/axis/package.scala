@@ -19,7 +19,7 @@ package object axis :
   
   type SELECTIONTYPE[DATUM] = Selection_[SVGGElement|SVGSVGElement, DATUM, HTMLElement, Any]
   type SELECTIONANY = Selection_[SVGGElement|SVGSVGElement, Any,Any,Any]
-  type TRANSITION = Transition_[Any, Any, Any, Any]
+  type TRANSITION = Transition_[js.Dynamic, Any, Any, Any]
   
 
   extension [DATUM](s:Selection_[SVGGElement|SVGSVGElement,DATUM,HTMLElement,Any])  
@@ -28,7 +28,9 @@ package object axis :
 
     def callAxis(axis:Axis[DATUM]): Selection_[SVGGElement|SVGSVGElement,DATUM,HTMLElement,Any] = 
       s.call( (sel:SELECTIONTYPE[DATUM], a:Axis[DATUM]) => a.apply(sel.asInstanceOf[SELECTIONANY]) //this is the logic to draw the axis
-       , axis)  
+       , axis)
+
+    def transform(x:Int,y:Int)  = s.attr("transform", s"translate($x, $y)")
 
 
   // extension [SVGE,DATUM](s:Selection_[SVGE,DATUM,Nothing,Nothing])  

@@ -7,6 +7,8 @@ import typings.std.global.{console, window}
 import scala.scalajs.js
 import org.scalajs.dom.{SVGCircleElement}
 import scala.collection.immutable.LazyList.cons
+import typings.d3Selection.mod.EnterElement
+import org.scalajs.dom.Element
 
 object d3svgcircles:
   case class CircleData(id: Double,radius:Double, color: String, x: Double, y: Double)
@@ -28,27 +30,42 @@ object d3svgcircles:
       .attr("height", height)
       .style("border", "1px solid black")
 
-    svg.selectAll[SVGCircleElement, CircleData]("circle")
+    import org.aurora.d3.axis.*  
+
+    val circles = svg.selectAll[SVGCircleElement, CircleData]("circle")
       .data(data)
       .join("circle" )
       .attr("cx", callback {(cd:CircleData) => cd.x })
       .attr("cy", callback {(cd:CircleData) => cd.y })
       .attr("fill", callback {(cd:CircleData) => cd.color })
       .attr("r", {(cd:CircleData) => cd.radius }.toCallback)  //alternative way to create the call back via extension method. not sure which way I like better
-      
 
-    import org.aurora.d3.axis.*  
-    val temp = svg.selectAll[SVGCircleElement, CircleData]("circle")
-      .data(data)
-      .join("circle" )
-      .attr("cx", callback {(cd:CircleData) => cd.x })
-      .attr("cy", callback {(cd:CircleData) => cd.y })
-      .attr("r", {(cd:CircleData) => cd.radius }.toCallback)  //alternative way to create the call back via extension method. not sure which way I like better
-      .asInstanceOf[TRANSITION]
+
+    import typings.d3Selection.mod.ValueFn
+    import typings.d3Transition.mod.Transition_
+    type F = ValueFn[js.Dynamic,Any,Unit]
+    def f: F = 
+      val x:F = (thisArg:js.Dynamic,x:Any,elem:Any,data:Any)  => {
+        d3Mod.active(thisArg.asInstanceOf[Element])
+          .transition()
+          .duration(1500)
+          .style("fill", "white")
+          
+        console.info("Axis animation complete"); 
+      }
+      x
+
+
+    circles.asInstanceOf[TRANSITION]
         .transition()
-        .duration(2000)
+        .duration(3000)
         .style("fill", "black")
+        .on("end", f) 
+    
+  
 
+
+ 
 
 
 
