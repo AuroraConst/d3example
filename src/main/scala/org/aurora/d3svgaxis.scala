@@ -14,8 +14,7 @@ import typings.d3Axis.mod.Axis
 import org.scalajs.dom.HTMLHtmlElement
 import org.scalajs.dom.SVGGElement
 import org.scalajs.dom.SVGSVGElement
-
-
+import org.aurora.d3.axis.TRANSITION
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
@@ -23,14 +22,15 @@ import org.scalajs.dom.SVGSVGElement
 
 object d3svgaxis:
 
+  val width = 400
+  val height = 400
+
 
   val data = (1 to 150).map{_.toDouble}.toJSArray
   val datay = (1 to 50).map{_.toDouble * 2}.toJSArray
 
   def start(): Unit = 
     console.info("Starting d3svgsimple example")
-    val width = 600
-    val height = 300
 
     
     
@@ -57,11 +57,21 @@ object d3svgaxis:
       .data(data)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
        .attr("transform", s"translate(0, $height)")
       .callAxis(xAxis)
+      .asInstanceOf[TRANSITION]
+        .transition()
+        .duration(2000)
+        .style("color","red")
+
 
     svg.append("g")  
       .data(data)  
       .attr("transform", s"translate(0, 0)")
       .callAxis(yAxis)
+      .asInstanceOf[TRANSITION]
+      .transition()
+        .duration(2000)
+        .style("color","red")
+
 
 
     svg.append("text")
@@ -70,6 +80,12 @@ object d3svgaxis:
       .attr("text-anchor", "middle")
       .attr("font-size", "16px")
       .text("D3 Axis Example")
+      .asInstanceOf[TRANSITION]
+      .transition()
+        .duration(1000)
+        .style("fill","blue")
+
+
 
 
 

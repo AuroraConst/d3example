@@ -17,7 +17,7 @@ val _ = Stylesheet // force initialization to prevent DCE (Dead Code Elimination
   d3canvassphere.start
 
   //draws circles in svg
-  d3svg.start()
+  d3svgcircles.start()
 
   //
   d3svgaxis.start()

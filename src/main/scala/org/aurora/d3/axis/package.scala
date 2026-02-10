@@ -7,7 +7,7 @@ import org.scalajs.dom.{HTMLHtmlElement,HTMLElement}
 import typings.d3Scale.mod.{ScaleLinear_,NumberValue}
 import typings.d3Axis.mod.{AxisScale,AxisDomain,Axis}
 import typings.d3Axis.mod.Axis
-
+import typings.d3Transition.mod.Transition_
 import typings.d3Selection.mod.Selection_
 package object axis :
   val temp = "x"
@@ -19,6 +19,7 @@ package object axis :
   
   type SELECTIONTYPE[DATUM] = Selection_[SVGGElement|SVGSVGElement, DATUM, HTMLElement, Any]
   type SELECTIONANY = Selection_[SVGGElement|SVGSVGElement, Any,Any,Any]
+  type TRANSITION = Transition_[Any, Any, Any, Any]
   
 
   extension [DATUM](s:Selection_[SVGGElement|SVGSVGElement,DATUM,HTMLElement,Any])  
@@ -29,5 +30,7 @@ package object axis :
       s.call( (sel:SELECTIONTYPE[DATUM], a:Axis[DATUM]) => a.apply(sel.asInstanceOf[SELECTIONANY]) //this is the logic to draw the axis
        , axis)  
 
-      
+
+  // extension [SVGE,DATUM](s:Selection_[SVGE,DATUM,Nothing,Nothing])  
+  //   def transition() = s.asInstanceOf[TRANSITION[DATUM]].transition()
 
