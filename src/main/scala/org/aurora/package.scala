@@ -12,10 +12,11 @@ import typings.d3Axis.mod.{AxisScale,AxisDomain}
 
 package object aurora :
   //these are the ids of the dom elements in index.html
-  val svgId       = "d3svg"
-  val canvasId    = "d3canvas"
-  val svgsimple   = "d3svgsimple"
-  val svgnetwork   = "d3svgnetwork"
+  val svgId         = "d3svg"
+  val canvasId      = "d3canvas"
+  val svgsimple     = "d3svgsimple"
+  val svgpath       = "d3svgpath"
+  val svgforcelink  = "d3svgforcelink"
 
 
   val console = Console

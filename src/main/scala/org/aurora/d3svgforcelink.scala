@@ -20,20 +20,20 @@ import typings.d3.d3Strings.line
 import org.scalajs.dom.Element
 import typings.d3Shape.mod.Line_
 import typings.d3Selection.mod.ArrayLike
+import typings.d3.d3Strings.svg
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
 */
 
-object d3svgnetwork:
+object d3svgforcelink:
 
   val width = 400
   val height = 400
 
 
   def start(): Unit = 
-    console.info("Starting d3svgnetwork example")
-
+    console.info("Starting d3svgforcelink example")
 
     case class Node(id:String, x:Double = 0, y:Double = 0)
     case class Link(source:Node, target:Node)
@@ -43,7 +43,7 @@ object d3svgnetwork:
       .map{c => c.toString -> Node(s"$c",random, random)}.toMap
     val nmKeys = nm.keySet.toSeq.toJSArray
 
-    val svgG = d3Mod.select(s"#${org.aurora.svgnetwork}")
+    val svgG = d3Mod.select(s"#${svgforcelink}")
       .attr("width", width)
       .attr("height", height)
       .style("border", "1px solid black")
@@ -55,15 +55,6 @@ object d3svgnetwork:
       .x( (n:Node,elem:Any, data:Any) => {console.info(s"(x,y) = (${n.x}, ${n.y})") ;  n.x })
       .y( (n:Node,elem:Any, data:Any) => n.y )
 
-   
-    val path = svgG
-      .append("path")  
-      .datum(nmKeys.map{(d => nm(d))})
-      .attr("d",callback((d:js.Array[Node]) => lineGenerator.apply(d))) //alternative way to create the call back via extension method. not sure which way I like better
-      .attr("fill", "none") // Do not fill the path
-      .attr("stroke", "black") // Set stroke color
-      .attr("stroke-width", 3)
-  
 
     val nodeGroups = svgG.
        selectAll[SVGCircleElement, String]("circle")
@@ -77,6 +68,11 @@ object d3svgnetwork:
       .attr("cy", callback((d:String) =>nm(d).y))
       .attr("r", 10)
       .attr("fill", "steelblue")
+      .asInstanceOf[TRANSITION]
+      .transition()
+      .duration(2000) 
+        .style("fill", "pink")
+        .on("end", transitionLambda)
 
 
     nodeGroups
@@ -88,6 +84,24 @@ object d3svgnetwork:
         .attr("stroke", "black")
         .attr("fill", "yellow")
         .text(callback((d:String) =>{d })) //this is how you set the text of the circle to the node id, using a callback to convert the data to text
+
+
+    import typings.d3Selection.mod.ValueFn
+    import typings.d3Transition.mod.Transition_
+    type TRANSITION = Transition_[js.Dynamic, Any, Any, Any]
+
+
+    def transitionLambda: ValueFn[js.Dynamic,Any,Unit] = 
+     (thisArg:js.Dynamic,d:Any,index:Double,data:Any)  => {
+
+        d3Mod.active(thisArg.asInstanceOf[Element])
+          .transition()
+          .duration(1000) 
+          .style("fill", "white")
+          .asInstanceOf[TRANSITION]
+          // .on("end", f)
+          
+      }      
 
 
    
