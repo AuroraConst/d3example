@@ -9,6 +9,9 @@ import typings.d3Axis.mod.{AxisScale,AxisDomain,Axis}
 import typings.d3Axis.mod.Axis
 import typings.d3Transition.mod.Transition_
 import typings.d3Selection.mod.Selection_
+
+import typings.d3Shape.mod.Line_
+
 package object axis :
   val temp = "x"
   
@@ -30,9 +33,13 @@ package object axis :
       s.call( (sel:SELECTIONTYPE[DATUM], a:Axis[DATUM]) => a.apply(sel.asInstanceOf[SELECTIONANY]) //this is the logic to draw the axis
        , axis)
 
+    // def callLineGen(linedata:Line_[DATUM]): Selection_[SVGGElement|SVGSVGElement,DATUM,HTMLElement,Any] = 
+    //   s.call( (sel:SELECTIONTYPE[DATUM], l:Line_[DATUM]) => l.apply(sel.data()),null)
+
+   
+
+
     def transform(x:Int,y:Int)  = s.attr("transform", s"translate($x, $y)")
 
 
-  // extension [SVGE,DATUM](s:Selection_[SVGE,DATUM,Nothing,Nothing])  
-  //   def transition() = s.asInstanceOf[TRANSITION[DATUM]].transition()
 

@@ -38,8 +38,8 @@ package object aurora :
         (thisArg: SVGELEMENDATUM, data: DATUM, index: Double, array: Array[SVGELEMENDATUM]) => f(data)
 
   //this was hell figuring this out!!
-  def callback[SVGELEMENDATUM <: SVGElement,DADATUMUM,R](f: (i:DADATUMUM)=> R): ValueFn[SVGELEMENDATUM, DADATUMUM, R] =
-      (thisArg: SVGELEMENDATUM, data: DADATUMUM, index: Double, array: Array[SVGELEMENDATUM]) => f(data)
+  def callback[SVGELEMENDATUM <: SVGElement,DATUM,R](f: (i:DATUM)=> R): ValueFn[SVGELEMENDATUM, DATUM, R] =
+      (thisArg: SVGELEMENDATUM, data: DATUM, index: Double, array: Array[SVGELEMENDATUM]) => f(data)
 
 
 

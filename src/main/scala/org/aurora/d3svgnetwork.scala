@@ -16,6 +16,10 @@ import org.scalajs.dom.SVGGElement
 import org.scalajs.dom.SVGSVGElement
 import org.aurora.d3.axis.TRANSITION
 import scala.util.Random
+import typings.d3.d3Strings.line
+import org.scalajs.dom.Element
+import typings.d3Shape.mod.Line_
+import typings.d3Selection.mod.ArrayLike
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
@@ -34,27 +38,32 @@ object d3svgnetwork:
     case class Node(id:String, x:Double = 0, y:Double = 0)
     case class Link(source:Node, target:Node)
     def random = Random.nextInt(10)*width/10.0
-    val nm = "ABCDEFGHIJKLMNOPQRTUVWXYZabcdefg"
+    val nm = "ABCDEFGHIJKLMNOPQRESTUVWXYZ"
       .toCharArray()
       .map{c => c.toString -> Node(s"$c",random, random)}.toMap
     val nmKeys = nm.keySet.toSeq.toJSArray
-    console.info(s"nodeMap: $nm")
-    val links = Seq(
-      Link(nm("A"), nm("B")),
-      Link(nm("A"), nm("C")),
-      Link(nm("B"), nm("D")),
-      Link(nm("C"), nm("D"))
-    )
 
-
-    import org.aurora.d3.axis.*
-    
     val svgG = d3Mod.select(s"#${org.aurora.svgnetwork}")
       .attr("width", width)
       .attr("height", height)
       .style("border", "1px solid black")
       .append("g")
       .attr("transform", s"translate(${0}, ${0})")
+
+
+    val lineGenerator = d3Mod.line[Node]()
+      .x( (n:Node,elem:Any, data:Any) => {console.info(s"(x,y) = (${n.x}, ${n.y})") ;  n.x })
+      .y( (n:Node,elem:Any, data:Any) => n.y )
+
+   
+    val path = svgG
+      .append("path")  
+      .datum(nmKeys.map{(d => nm(d))})
+      .attr("d",callback((d:js.Array[Node]) => lineGenerator.apply(d))) //alternative way to create the call back via extension method. not sure which way I like better
+      .attr("fill", "none") // Do not fill the path
+      .attr("stroke", "black") // Set stroke color
+      .attr("stroke-width", 3)
+  
 
     val nodeGroups = svgG.
        selectAll[SVGCircleElement, String]("circle")
@@ -79,16 +88,6 @@ object d3svgnetwork:
         .attr("stroke", "black")
         .attr("fill", "yellow")
         .text(callback((d:String) =>{d })) //this is how you set the text of the circle to the node id, using a callback to convert the data to text
-      
-
-    // val simulation = d3Mod.forceSimulation()
 
 
-
-
-
-
-
-
-
-
+   

@@ -55,7 +55,7 @@ object d3svgcircles:
     
 
     def f: F = 
-     (thisArg:js.Dynamic,d:Any,elem:Any,data:Any)  => {
+     (thisArg:js.Dynamic,d:Any,index:Double,data:Any)  => {
 
         d3Mod.active(thisArg.asInstanceOf[Element])
           .transition()
