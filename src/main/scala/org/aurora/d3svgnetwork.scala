@@ -33,8 +33,10 @@ object d3svgnetwork:
 
     case class Node(id:String, x:Double = 0, y:Double = 0)
     case class Link(source:Node, target:Node)
-
-    val nm = "ABCD".toCharArray().map{c => c.toString -> Node(c.toString,Random.nextInt(10)*40, Random.nextInt(10)*40 )}.toMap
+    def random = Random.nextInt(10)*width/10.0
+    val nm = "ABCDEFGHIJKLMNOPQRTUVWXYZabcdefg"
+      .toCharArray()
+      .map{c => c.toString -> Node(s"$c",random, random)}.toMap
     val nmKeys = nm.keySet.toSeq.toJSArray
     console.info(s"nodeMap: $nm")
     val links = Seq(
@@ -54,20 +56,21 @@ object d3svgnetwork:
       .append("g")
       .attr("transform", s"translate(${0}, ${0})")
 
-    val groups = svgG.
+    val nodeGroups = svgG.
        selectAll[SVGCircleElement, String]("circle")
         .data(nmKeys)
         .join("g")
 
-    groups
+    //each node group will contain a circle and text element
+    nodeGroups
       .append("circle")
       .attr("cx", callback((d:String) =>nm(d).x))
       .attr("cy", callback((d:String) =>nm(d).y))
-      .attr("r", 20)
+      .attr("r", 10)
       .attr("fill", "steelblue")
 
 
-    groups
+    nodeGroups
       .append("text")
         .attr("text-anchor", "middle")
         .attr("x", callback((d:String) =>nm(d).x))
@@ -75,7 +78,7 @@ object d3svgnetwork:
         .attr("dy", ".35em") //this is to center the text vertically in the circle
         .attr("stroke", "black")
         .attr("fill", "yellow")
-        .text(callback((d:String) =>{console.info(s"hey $d");  s"$d" })) //this is how you set the text of the circle to the node id, using a callback to convert the data to text
+        .text(callback((d:String) =>{d })) //this is how you set the text of the circle to the node id, using a callback to convert the data to text
       
 
     // val simulation = d3Mod.forceSimulation()
