@@ -31,10 +31,10 @@ object d3svgnetwork:
     console.info("Starting d3svgnetwork example")
 
 
-    case class Node(id:String)
+    case class Node(id:String, x:Double = 0, y:Double = 0)
     case class Link(source:Node, target:Node)
 
-    val nm = "ABCD".toCharArray().map{c => c.toString -> Node(c.toString)}.toMap
+    val nm = "ABCD".toCharArray().map{c => c.toString -> Node(c.toString,Random.nextInt(10)*40, Random.nextInt(10)*40 )}.toMap
     val nmKeys = nm.keySet.toSeq.toJSArray
     console.info(s"nodeMap: $nm")
     val links = Seq(
@@ -47,32 +47,35 @@ object d3svgnetwork:
 
     import org.aurora.d3.axis.*
     
-    val svg = d3Mod.select(s"#${org.aurora.svgnetwork}")
+    val svgG = d3Mod.select(s"#${org.aurora.svgnetwork}")
       .attr("width", width)
       .attr("height", height)
       .style("border", "1px solid black")
       .append("g")
       .attr("transform", s"translate(${0}, ${0})")
 
-    val initNodes = svg.
+    val groups = svgG.
        selectAll[SVGCircleElement, String]("circle")
         .data(nmKeys)
-        .join("circle")
-        .attr("cx", callback((d:String) =>{Random.nextInt(10)*40}.toString()))
-        .attr("cy", callback((d:String) =>{Random.nextInt(10)*40}.toString()))
-        .attr("r", 20)
-        .attr("fill", "steelblue")
+        .join("g")
+
+    groups
+      .append("circle")
+      .attr("cx", callback((d:String) =>nm(d).x))
+      .attr("cy", callback((d:String) =>nm(d).y))
+      .attr("r", 20)
+      .attr("fill", "steelblue")
 
 
-    initNodes
-      // .append("g")    
+    groups
       .append("text")
         .attr("text-anchor", "middle")
+        .attr("x", callback((d:String) =>nm(d).x))
+        .attr("y", callback((d:String) =>nm(d).y))
         .attr("dy", ".35em") //this is to center the text vertically in the circle
         .attr("stroke", "black")
         .attr("fill", "yellow")
-        .text("HEaaaaaaaaaaaaaaY")
-        // .text(callback((d:String) =>{console.info(s"hey $d");  s"HEY$d" })) //this is how you set the text of the circle to the node id, using a callback to convert the data to text
+        .text(callback((d:String) =>{console.info(s"hey $d");  s"$d" })) //this is how you set the text of the circle to the node id, using a callback to convert the data to text
       
 
     // val simulation = d3Mod.forceSimulation()
