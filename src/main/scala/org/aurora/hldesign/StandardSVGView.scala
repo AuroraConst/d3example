@@ -6,7 +6,7 @@ import com.raquo.airstream.ownership.ManualOwner
 import com.raquo.laminar.api.L.{*, given}
 import typings.d3.mod as d3Mod
 
-trait StandardView :
+trait StandardSVGView :
   private object utils:
     extension(o:Any)
       def cleanname =

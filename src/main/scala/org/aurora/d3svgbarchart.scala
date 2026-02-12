@@ -15,15 +15,15 @@ import typings.d3Axis.mod.Axis
 */
 import org.aurora.hldesign.StandardSVGView
 
-object d3svgaxis extends StandardSVGView :
+object d3svgbarchart extends StandardSVGView :
 
   override def rerender(): Unit = ???
 
-  val data = (1 to 150).map{_.toDouble}.toJSArray
-  val datay = (1 to 150).map{_.toDouble * 2}.toJSArray
+  val data = (1 to 300).map{_.toDouble}.toJSArray
+  val datay = (1 to 300).map{_.toDouble * 2}.toJSArray
 
   def start(): Unit = 
-    console.info("Starting d3svgsimple example")
+    console.info(s"Starting $nameid example")
   
     lazy val xScale = d3Mod.scaleLinear()
       .domain(js.Array(data.min,data.max))
@@ -69,7 +69,7 @@ object d3svgaxis extends StandardSVGView :
       .attr("y", height/2)
       .attr("text-anchor", "middle")
       .attr("font-size", "16px")
-      .text("D3 Axis Example")
+      .text("D3 Bar Chart Work in Progress Example")
       .asInstanceOf[TRANSITION]
       .transition()
         .duration(2000)

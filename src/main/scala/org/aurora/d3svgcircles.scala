@@ -11,9 +11,9 @@ import typings.d3Selection.mod.EnterElement
 import org.scalajs.dom.Element
 import scala.util.Random
 
-import org.aurora.hldesign.StandardView
+import org.aurora.hldesign.StandardSVGView
 
-object d3svgcircles extends StandardView :
+object d3svgcircles extends StandardSVGView :
 
   override def rerender(): Unit = ???
 

@@ -21,13 +21,13 @@ import typings.d3Shape.mod.Line_
 import typings.d3Selection.mod.ArrayLike
 import typings.d3Force.mod.Force
 import com.raquo.airstream.ownership.ManualOwner
-import org.aurora.hldesign.StandardView
+import org.aurora.hldesign.StandardSVGView
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
 */
 //note the module name will correspond to the id on the svg tag in index.html
-object d3svgforcelink extends StandardView :
+object d3svgforcelink extends StandardSVGView :
   // lazy val svg = d3Mod.select(s"#${nameid}")
   //   .attr("width", width)
   //   .attr("height", height)

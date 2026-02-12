@@ -12,13 +12,13 @@ import typings.d3Selection.mod.Selection_
 import scala.util.Random
 import org.scalajs.dom.Element
 import typings.d3Shape.mod.Line_
-import org.aurora.hldesign.StandardView
+import org.aurora.hldesign.StandardSVGView
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
 */
 
-object d3svgpath extends StandardView :
+object d3svgpath extends StandardSVGView :
   import org.aurora.d3utils.*
 
   // val width = 400
