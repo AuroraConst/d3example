@@ -5,24 +5,12 @@ import typings.d3.mod as d3Mod
 import typings.std.global.{console, window}
 
 import scala.scalajs.js
-import org.scalajs.dom.{SVGCircleElement, HTMLElement}
-import typings.d3Scale.mod.NumberValue
 import js.JSConverters.*
-import typings.d3Axis.mod.{AxisScale,AxisDomain}
 import typings.d3Selection.mod.Selection_
-import typings.d3Axis.mod.Axis
-import org.scalajs.dom.HTMLHtmlElement
-import org.scalajs.dom.SVGGElement
-import org.scalajs.dom.SVGSVGElement
-import org.aurora.d3.axis.TRANSITION
+import org.aurora.d3utils.*
 import scala.util.Random
-import typings.d3.d3Strings.line
 import org.scalajs.dom.Element
-import typings.d3Shape.mod.Line_
-import typings.d3Selection.mod.ArrayLike
-import typings.d3.d3Strings.svg
 import typings.d3Force.mod.Force
-import typings.d3.d3Strings.map
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
@@ -49,17 +37,14 @@ object d3svgforcelink:
     import js.Dynamic.literal
 
     val jsnodes = nmKeys.map{k => nm(k)}.map{ n => literal{"id" -> n.id; "x" -> n.x; "y" -> n.y} }.toJSArray
-    import org.scalajs.dom.Element
-    import typings.d3Selection.mod.ValueFn
 
-    type F[DATUM] = ValueFn[Element, DATUM, Null | String | Double | Boolean | (js.Array[String | Double])]
 
-    def f(  lambda: (d:js.Dynamic) => Double): F[js.Dynamic] = 
+    def f(  lambda: (d:js.Dynamic) => Double): VFnELEMENT[js.Dynamic,Double] = 
      (thisArg:Element,d:js.Dynamic,index:Double,data:Any)  => {
-        lambda(d).toString
+        lambda(d)
     }
 
-    def idf(lambda: (d:js.Dynamic) => String): ValueFn[Element, js.Dynamic, Null | String | Double | Boolean | (js.Array[String | Double])] =
+    def idf(lambda: (d:js.Dynamic) => String): VFnELEMENT[js.Dynamic,String]  =
      (thisArg:Element,d:js.Dynamic,index:Double,data:Any)  => {
         lambda(d)
     }
@@ -84,7 +69,6 @@ object d3svgforcelink:
         node.asInstanceOf[Selection_[Element, js.Dynamic, Any, Any]]
           .attr("cx", f((d:js.Dynamic) => d.x.asInstanceOf[Double] ))
           .attr("cy", f((d:js.Dynamic) => d.y.asInstanceOf[Double] ))
-          // .attr("cy", f((d:Node) => {console.info(s"ticked: ${d.y}");d.y}))
         ()  
       }
 

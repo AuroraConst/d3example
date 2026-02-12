@@ -5,16 +5,10 @@ import typings.d3.mod as d3Mod
 import typings.std.global.{console, window}
 
 import scala.scalajs.js
-import org.scalajs.dom.{SVGCircleElement, HTMLElement}
-import typings.d3Scale.mod.NumberValue
 import js.JSConverters.*
 import typings.d3Axis.mod.{AxisScale,AxisDomain}
 import typings.d3Selection.mod.Selection_
 import typings.d3Axis.mod.Axis
-import org.scalajs.dom.HTMLHtmlElement
-import org.scalajs.dom.SVGGElement
-import org.scalajs.dom.SVGSVGElement
-import org.aurora.d3.axis.TRANSITION
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
@@ -48,7 +42,7 @@ object d3svgaxis:
       .range(js.Array(height-5, 0).map{_.toDouble})  
 
 
-    import org.aurora.d3.axis.*
+    import org.aurora.d3utils.*
     val xAxis = d3Mod.axisTop(xScale.toAxisScale)//.ticks(25)
     val yAxis = d3Mod.axisRight(yScale.toAxisScale)//.ticks(15)
 

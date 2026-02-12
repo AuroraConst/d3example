@@ -1,9 +1,9 @@
-package org.aurora.d3
+package org.aurora
 
 import org.scalajs.dom.{SVGElement,SVGGElement,SVGSVGElement,SVGCircleElement}
 import scala.scalajs.js
 import typings.d3Selection.mod.{ValueFn,ArrayLike}
-import org.scalajs.dom.{HTMLHtmlElement,HTMLElement}
+import org.scalajs.dom.{HTMLHtmlElement,HTMLElement,Element}
 import typings.d3Scale.mod.{ScaleLinear_,NumberValue}
 import typings.d3Axis.mod.{AxisScale,AxisDomain,Axis}
 import typings.d3Axis.mod.Axis
@@ -12,7 +12,7 @@ import typings.d3Selection.mod.Selection_
 
 import typings.d3Shape.mod.Line_
 
-package object axis :
+package object d3utils :
   val temp = "x"
   
   extension [T] (s:ScaleLinear_[T,Nothing,Nothing])  
@@ -23,6 +23,17 @@ package object axis :
   type SELECTIONTYPE[DATUM] = Selection_[SVGGElement|SVGSVGElement, DATUM, HTMLElement, Any]
   type SELECTIONANY = Selection_[SVGGElement|SVGSVGElement, Any,Any,Any]
   type TRANSITION = Transition_[js.Dynamic, Any, Any, Any]
+
+    //TODO: STANDARDIZE ValueFn across examples
+  type VFnRETURN = Null | String | Double | Boolean | (js.Array[String | Double])
+  type VFnELEMENT[DATUM,R] = ValueFn[Element, DATUM, R]
+  type VFnDATUM[DATUM] = ValueFn[Element, DATUM, VFnRETURN]
+  type VFnJSDynamic[DATUM,R] = js.Function3[js.Dynamic, DATUM, Double, R]
+
+  val exampleLambda: VFnDATUM[js.Dynamic] = (thisArg:Element,d:js.Dynamic,index:Double,data:Any)  => {
+    d.id.toString
+  }
+
   
 
   extension [DATUM](s:Selection_[SVGGElement|SVGSVGElement,DATUM,HTMLElement,Any])  

@@ -8,25 +8,17 @@ import scala.scalajs.js
 import org.scalajs.dom.{SVGCircleElement, HTMLElement}
 import typings.d3Scale.mod.NumberValue
 import js.JSConverters.*
-import typings.d3Axis.mod.{AxisScale,AxisDomain}
 import typings.d3Selection.mod.Selection_
-import typings.d3Axis.mod.Axis
-import org.scalajs.dom.HTMLHtmlElement
-import org.scalajs.dom.SVGGElement
-import org.scalajs.dom.SVGSVGElement
-import org.aurora.d3.axis.TRANSITION
 import scala.util.Random
-import typings.d3.d3Strings.line
 import org.scalajs.dom.Element
 import typings.d3Shape.mod.Line_
-import typings.d3Selection.mod.ArrayLike
-import typings.d3.d3Strings.svg
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
 */
 
 object d3svgpath:
+  import org.aurora.d3utils.*
 
   val width = 400
   val height = 400
@@ -101,7 +93,7 @@ object d3svgpath:
     type TRANSITION = Transition_[js.Dynamic, Any, Any, Any]
 
 
-    def transitionLambda: ValueFn[js.Dynamic,Any,Unit] = 
+    def transitionLambda: ValueFn[js.Dynamic,Any,Unit] = //VFnJSDynamic[Any,Unit] = 
      (thisArg:js.Dynamic,d:Any,index:Double,data:Any)  => {
 
         d3Mod.active(thisArg.asInstanceOf[Element])
@@ -110,7 +102,6 @@ object d3svgpath:
           .style("fill", "white")
           .asInstanceOf[TRANSITION]
           // .on("end", f)
-          
       }      
 
 

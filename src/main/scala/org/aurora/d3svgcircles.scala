@@ -31,7 +31,7 @@ object d3svgcircles:
       .attr("height", height)
       .style("border", "1px solid black")
 
-    import org.aurora.d3.axis.*  
+    import org.aurora.d3utils.*
 
     val circles = svg.selectAll[SVGCircleElement, CircleData]("circle")
       .data(data)
@@ -44,7 +44,7 @@ object d3svgcircles:
 
     import typings.d3Selection.mod.ValueFn
     import typings.d3Transition.mod.Transition_
-    type F = ValueFn[js.Dynamic,Any,Unit]
+    type VFNDynamic[DATUM,R] = ValueFn[js.Dynamic, DATUM, R]
 
     var tf = true
     def tfcolorf = Random.nextInt(8)  match 
@@ -54,8 +54,8 @@ object d3svgcircles:
       case _ => "black"
     
 
-    def f: F = 
-     (thisArg:js.Dynamic,d:Any,index:Double,data:Any)  => {
+    def f: VFNDynamic[Any, Unit] = 
+     (thisArg:Any,d:Any,index:Double,data:Any)  => {
 
         d3Mod.active(thisArg.asInstanceOf[Element])
           .transition()
@@ -63,7 +63,6 @@ object d3svgcircles:
           .style("fill", tfcolorf)
           .asInstanceOf[TRANSITION]
           .on("end", f)
-          
       }
 
     circles.asInstanceOf[TRANSITION]
