@@ -21,6 +21,8 @@ import org.scalajs.dom.Element
 import typings.d3Shape.mod.Line_
 import typings.d3Selection.mod.ArrayLike
 import typings.d3.d3Strings.svg
+import typings.d3Force.mod.Force
+import typings.d3.d3Strings.map
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
@@ -35,73 +37,62 @@ object d3svgforcelink:
   def start(): Unit = 
     console.info("Starting d3svgforcelink example")
 
+    def random = Random.nextInt(10)*width/10.0
     case class Node(id:String, x:Double = 0, y:Double = 0)
     case class Link(source:Node, target:Node)
-    def random = Random.nextInt(10)*width/10.0
-    val nm = "ABCDEFGHIJKLMNOPQRESTUVWXYZ"
+    val nm = "1234567890"  //node map from string key to Node
       .toCharArray()
       .map{c => c.toString -> Node(s"$c",random, random)}.toMap
     val nmKeys = nm.keySet.toSeq.toJSArray
 
-    val svgG = d3Mod.select(s"#${svgforcelink}")
+    import org.scalajs.dom.Element
+    import typings.d3Selection.mod.ValueFn
+
+    type F[DATUM] = ValueFn[Element, DATUM, Null | String | Double | Boolean | (js.Array[String | Double])]
+
+    def f(  lambda: (d:Node) => Double): F[Node] = 
+     (thisArg:Element,d:Node,index:Double,data:Any)  => {
+        lambda(d).toString
+    }
+
+    def idf(lambda: (d:Node) => String): ValueFn[Element, Node, Null | String | Double | Boolean | (js.Array[String | Double])] =
+     (thisArg:Element,d:Node,index:Double,data:Any)  => {
+        lambda(d)
+    }
+
+    val svg = d3Mod.select(s"#${svgforcelink}")
       .attr("width", width)
       .attr("height", height)
       .style("border", "1px solid black")
       .append("g")
       .attr("transform", s"translate(${0}, ${0})")
 
-
-    val lineGenerator = d3Mod.line[Node]()
-      .x( (n:Node,elem:Any, data:Any) => {console.info(s"(x,y) = (${n.x}, ${n.y})") ;  n.x })
-      .y( (n:Node,elem:Any, data:Any) => n.y )
-
-
-    val nodeGroups = svgG.
-       selectAll[SVGCircleElement, String]("circle")
-        .data(nmKeys)
-        .join("g")
-
-    //each node group will contain a circle and text element
-    nodeGroups
+    val node =  svg.append("g")
+      .selectAll("circle")
+      .data(nmKeys.map{k => nm(k)})  
+      .enter()
       .append("circle")
-      .attr("cx", callback((d:String) =>nm(d).x))
-      .attr("cy", callback((d:String) =>nm(d).y))
       .attr("r", 10)
-      .attr("fill", "steelblue")
-      .asInstanceOf[TRANSITION]
-      .transition()
-      .duration(2000) 
-        .style("fill", "pink")
-        .on("end", transitionLambda)
+      .attr("id",idf((n:Node) => n.id))
+      .attr("fill","#69b3a2")
+ 
+    def ticked =  (thisArg:Any) => {
+        node.asInstanceOf[Selection_[Element, Node, Any, Any]]
+          .attr("cx", f((d:Node) => d.x))
+          .attr("cy", f((d:Node) => {console.info(s"ticked: ${d.y}");d.y}))
+        ()  
+      }
+
+    val sim = d3Mod.forceSimulation(nmKeys.map{k => nm(k)})  //the nodes of the simulation are the values of the node map
+      .force("charge",d3Mod.forceManyBody().strength(-50).asInstanceOf[Force[Node,Unit]])  //this is how you set the charge force, using a callback to convert the node data to a forceManyBody
+      .force("center",d3Mod.forceCenter(width/2,height/2).asInstanceOf[Force[Node,Unit]])  //this is how you set the center force, using a callback to convert the node data to a forceCenter
+      .on("tick", ticked )
 
 
-    nodeGroups
-      .append("text")
-        .attr("text-anchor", "middle")
-        .attr("x", callback((d:String) =>nm(d).x))
-        .attr("y", callback((d:String) =>nm(d).y))
-        .attr("dy", ".35em") //this is to center the text vertically in the circle
-        .attr("stroke", "black")
-        .attr("fill", "yellow")
-        .text(callback((d:String) =>{d })) //this is how you set the text of the circle to the node id, using a callback to convert the data to text
+
+    
 
 
-    import typings.d3Selection.mod.ValueFn
-    import typings.d3Transition.mod.Transition_
-    type TRANSITION = Transition_[js.Dynamic, Any, Any, Any]
-
-
-    def transitionLambda: ValueFn[js.Dynamic,Any,Unit] = 
-     (thisArg:js.Dynamic,d:Any,index:Double,data:Any)  => {
-
-        d3Mod.active(thisArg.asInstanceOf[Element])
-          .transition()
-          .duration(1000) 
-          .style("fill", "white")
-          .asInstanceOf[TRANSITION]
-          // .on("end", f)
-          
-      }      
 
 
    

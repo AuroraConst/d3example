@@ -44,6 +44,7 @@ package object aurora :
 
 
 
+
   def convert[DATUM](f: (datum:DATUM) =>Double ) :js.Function3[DATUM, Double, js.Array[DATUM], Double] = 
     (d:DATUM, v:Double, a:js.Array[DATUM]) => f(d)
 
