@@ -45,7 +45,7 @@ object d3svgforcelink:
 
     import js.Dynamic.literal
 
-    val jsnodes = nmKeys.map{k => nm(k)}.map{ n => literal{"id" -> n.id; "x" -> n.x; "y" -> n.y} }.toJSArray
+    val jsnodes = nmKeys.map{k => nm(k)}.map{ n => literal{"id" -> n.id; "x" -> n.x; "y" -> n.y} }.toJSArray //convert case class to js.Dynamic to be in native java script data
 
 
     def f(  lambda: (d:js.Dynamic) => Double): VFnELEMENT[js.Dynamic,Double] = 
