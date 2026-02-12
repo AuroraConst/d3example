@@ -49,7 +49,7 @@ object d3svgcircles extends StandardSVGView :
     // import typings.d3Transition.mod.Transition_
     // type VFNDynamic[DATUM,R] = ValueFn[js.Dynamic, DATUM, R]
 
-    var tf = true
+    // var tf = true
     def tfcolorf = Random.nextInt(8)  match 
       case 0 => "red"
       case 1 => "blue"
