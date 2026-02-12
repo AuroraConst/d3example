@@ -37,7 +37,11 @@ object d3svgbarchart extends StandardSVGView :
     val xAxis = d3Mod.axisTop(xScale.toAxisScale)//.ticks(25)
      val yAxis = d3Mod.axisRight(yScale.toAxisScale)//.ticks(15)
 
-    
+    svg
+     .append("rect")
+     .attr("width", width)
+     .attr("height", height)
+     .style("fill", "pink")
     svg.append("g")
       .data(data)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
       .transform(0,height)

@@ -43,7 +43,6 @@ object d3svgforcelink extends StandardSVGView :
     .attr("r", 10)
     .attr("id",idf((n:js.Dynamic) => n.id.toString()))
     .attr("fill","#69b3a2")
- 
 
   def random = Random.nextInt(10)*width/10.0
   case class Node(id:String, x:Double = 0, y:Double = 0)
