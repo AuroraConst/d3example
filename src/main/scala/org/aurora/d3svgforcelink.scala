@@ -40,23 +40,27 @@ object d3svgforcelink:
     def random = Random.nextInt(10)*width/10.0
     case class Node(id:String, x:Double = 0, y:Double = 0)
     case class Link(source:Node, target:Node)
+
     val nm = "1234567890"  //node map from string key to Node
       .toCharArray()
       .map{c => c.toString -> Node(s"$c",random, random)}.toMap
     val nmKeys = nm.keySet.toSeq.toJSArray
 
+    import js.Dynamic.literal
+
+    val jsnodes = nmKeys.map{k => nm(k)}.map{ n => literal{"id" -> n.id; "x" -> n.x; "y" -> n.y} }.toJSArray
     import org.scalajs.dom.Element
     import typings.d3Selection.mod.ValueFn
 
     type F[DATUM] = ValueFn[Element, DATUM, Null | String | Double | Boolean | (js.Array[String | Double])]
 
-    def f(  lambda: (d:Node) => Double): F[Node] = 
-     (thisArg:Element,d:Node,index:Double,data:Any)  => {
+    def f(  lambda: (d:js.Dynamic) => Double): F[js.Dynamic] = 
+     (thisArg:Element,d:js.Dynamic,index:Double,data:Any)  => {
         lambda(d).toString
     }
 
-    def idf(lambda: (d:Node) => String): ValueFn[Element, Node, Null | String | Double | Boolean | (js.Array[String | Double])] =
-     (thisArg:Element,d:Node,index:Double,data:Any)  => {
+    def idf(lambda: (d:js.Dynamic) => String): ValueFn[Element, js.Dynamic, Null | String | Double | Boolean | (js.Array[String | Double])] =
+     (thisArg:Element,d:js.Dynamic,index:Double,data:Any)  => {
         lambda(d)
     }
 
@@ -69,23 +73,24 @@ object d3svgforcelink:
 
     val node =  svg.append("g")
       .selectAll("circle")
-      .data(nmKeys.map{k => nm(k)})  
+      .data(jsnodes)  
       .enter()
       .append("circle")
       .attr("r", 10)
-      .attr("id",idf((n:Node) => n.id))
+      .attr("id",idf((n:js.Dynamic) => n.id.toString()))
       .attr("fill","#69b3a2")
  
     def ticked =  (thisArg:Any) => {
-        node.asInstanceOf[Selection_[Element, Node, Any, Any]]
-          .attr("cx", f((d:Node) => d.x))
-          .attr("cy", f((d:Node) => {console.info(s"ticked: ${d.y}");d.y}))
+        node.asInstanceOf[Selection_[Element, js.Dynamic, Any, Any]]
+          .attr("cx", f((d:js.Dynamic) => d.x.asInstanceOf[Double] ))
+          .attr("cy", f((d:js.Dynamic) => d.y.asInstanceOf[Double] ))
+          // .attr("cy", f((d:Node) => {console.info(s"ticked: ${d.y}");d.y}))
         ()  
       }
 
-    val sim = d3Mod.forceSimulation(nmKeys.map{k => nm(k)})  //the nodes of the simulation are the values of the node map
-      .force("charge",d3Mod.forceManyBody().strength(-50).asInstanceOf[Force[Node,Unit]])  //this is how you set the charge force, using a callback to convert the node data to a forceManyBody
-      .force("center",d3Mod.forceCenter(width/2,height/2).asInstanceOf[Force[Node,Unit]])  //this is how you set the center force, using a callback to convert the node data to a forceCenter
+    val sim = d3Mod.forceSimulation(jsnodes)  //the nodes of the simulation are the values of the node map
+      .force("charge",d3Mod.forceManyBody().strength(-50).asInstanceOf[Force[js.Object&js.Dynamic,Unit]])  //this is how you set the charge force, using a callback to convert the node data to a forceManyBody
+      .force("center",d3Mod.forceCenter(width/2,height/2).asInstanceOf[Force[js.Object&js.Dynamic,Unit]])  //this is how you set the center force, using a callback to convert the node data to a forceCenter
       .on("tick", ticked )
 
 
