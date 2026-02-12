@@ -1,19 +1,18 @@
 package org.aurora
 
 import com.raquo.laminar.api.L.{*, given}
-
+import typings.std.global.{console, document, window}
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
-
 object HelloWorld {
 
   @JSImport("@find/**/HelloWorld.less", JSImport.Namespace)
   @js.native private object Stylesheet extends js.Object
 
   val _ = Stylesheet // Use import to prevent DCE
+  lazy val nameVar = Var(initial = "world")
 
   def apply(): HtmlElement = {
-    val nameVar = Var(initial = "world")
     div(
       cls("HelloWorld"),
       label("Your names: "),
@@ -25,7 +24,7 @@ object HelloWorld {
       div(
         cls("-greeting"),
         "Hello there: ",
-        text <-- nameVar.signal.map(_.toUpperCase)
+        text <-- nameVar.signal.map(_.toUpperCase),
       )
     )
   }

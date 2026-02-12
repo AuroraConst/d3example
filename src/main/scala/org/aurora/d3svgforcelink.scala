@@ -20,6 +20,7 @@ import org.scalajs.dom.Element
 import typings.d3Shape.mod.Line_
 import typings.d3Selection.mod.ArrayLike
 import typings.d3Force.mod.Force
+import com.raquo.airstream.ownership.ManualOwner
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
@@ -44,8 +45,8 @@ object d3svgforcelink:
     val nmKeys = nm.keySet.toSeq.toJSArray
 
     import js.Dynamic.literal
-
-    val jsnodes = nmKeys.map{k => nm(k)}.map{ n => literal{"id" -> n.id; "x" -> n.x; "y" -> n.y} }.toJSArray //convert case class to js.Dynamic to be in native java script data
+    def init() = nmKeys.map{k => nm(k)}.map{ n => literal{"id" -> n.id; "x" -> n.x; "y" -> n.y} }.toJSArray 
+    var jsnodes = init()// nmKeys.map{k => nm(k)}.map{ n => literal{"id" -> n.id; "x" -> n.x; "y" -> n.y} }.toJSArray //convert case class to js.Dynamic to be in native java script data
 
 
     def f(  lambda: (d:js.Dynamic) => Double): VFnELEMENT[js.Dynamic,Double] = 
@@ -85,6 +86,22 @@ object d3svgforcelink:
       .force("charge",d3Mod.forceManyBody().strength(-50).asInstanceOf[Force[js.Object&js.Dynamic,Unit]])  //this is how you set the charge force, using a callback to convert the node data to a forceManyBody
       .force("center",d3Mod.forceCenter(width/2,height/2).asInstanceOf[Force[js.Object&js.Dynamic,Unit]])  //this is how you set the center force, using a callback to convert the node data to a forceCenter
       .on("tick", ticked )
+
+
+    import com.raquo.laminar.api.L.{*, given}
+    given Owner = ManualOwner() //owner needed for laminar foreach side effects
+    //event handling when text box changes
+    HelloWorld.nameVar.signal.foreach{ _ => 
+      console.info("Name changed, restarting simulation with new random nodes")
+      val newNodes = init() //create new random nodes
+      node.data(  newNodes) 
+      //    .enter()
+      sim.nodes(newNodes)  //update the nodes of the simulation to trigger the simulation to update. not sure if this is the best way to do it, but it works for demonstration purposes.
+      sim.alpha(0.5).restart() //update the data of the nodes to trigger the simulation to update. not sure if this is the best way to do it, but it works for demonstration purposes.
+
+    }  //restart the simulation when the nameVar changes, just to show how you can interact with the simulation from laminar. not sure if this is the best way to do it, but it works for demonstration purposes.
+
+
 
 
 
