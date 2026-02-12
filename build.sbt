@@ -23,6 +23,11 @@ lazy val root = project
       "org.scala-js" %%% "scalajs-dom" % "2.8.0",
       "com.raquo" %%% "laminar" % "17.2.0",
     ),
+    libraryDependencies ++=     Seq(
+      "org.scalatest" %%% "scalatest" % "3.2.19"% Test,
+      "org.scalactic" %%% "scalactic" % "3.2.19"  
+    ),
+
     stIgnore += "node",
     stIgnore += "typescript",
     stIgnore += "vite",

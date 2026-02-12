@@ -11,10 +11,13 @@ import typings.d3Selection.mod.EnterElement
 import org.scalajs.dom.Element
 import scala.util.Random
 
-object d3svgcircles:
+import org.aurora.hldesign.StandardView
+
+object d3svgcircles extends StandardView :
+
+  override def rerender(): Unit = ???
+
   case class CircleData(id: Double,radius:Double, color: String, x: Double, y: Double)
-  val width = 400
-  val height = 400
 
 
   import js.JSConverters._
@@ -26,14 +29,14 @@ object d3svgcircles:
 
   def start(): Unit = 
     console.info("Starting d3svg example")
-    val svg = d3Mod.select(s"#$svgId")
-      .attr("width", width)
-      .attr("height", height)
-      .style("border", "1px solid black")
+    // val svg = d3Mod.select(s"#$svgcircles")
+    //   .attr("width", width)
+    //   .attr("height", height)
+    //   .style("border", "1px solid black")
 
     import org.aurora.d3utils.*
 
-    val circles = svg.selectAll[SVGCircleElement, CircleData]("circle")
+    lazy val circles = svg.selectAll[SVGCircleElement, CircleData]("circle")
       .data(data)
       .join("circle" )
       .attr("cx", callback {(cd:CircleData) => cd.x })
@@ -42,9 +45,9 @@ object d3svgcircles:
       .attr("r", {(cd:CircleData) => cd.radius }.toCallback)  //alternative way to create the call back via extension method. not sure which way I like better
 
 
-    import typings.d3Selection.mod.ValueFn
-    import typings.d3Transition.mod.Transition_
-    type VFNDynamic[DATUM,R] = ValueFn[js.Dynamic, DATUM, R]
+    // import typings.d3Selection.mod.ValueFn
+    // import typings.d3Transition.mod.Transition_
+    // type VFNDynamic[DATUM,R] = ValueFn[js.Dynamic, DATUM, R]
 
     var tf = true
     def tfcolorf = Random.nextInt(8)  match 
@@ -54,7 +57,7 @@ object d3svgcircles:
       case _ => "black"
     
 
-    def f: VFNDynamic[Any, Unit] = 
+    def f: VFnJSDynamic[Any, Unit] = 
      (thisArg:Any,d:Any,index:Double,data:Any)  => {
 
         d3Mod.active(thisArg.asInstanceOf[Element])

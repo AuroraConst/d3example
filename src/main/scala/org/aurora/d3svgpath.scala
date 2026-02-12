@@ -12,17 +12,21 @@ import typings.d3Selection.mod.Selection_
 import scala.util.Random
 import org.scalajs.dom.Element
 import typings.d3Shape.mod.Line_
+import org.aurora.hldesign.StandardView
 /**
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
 */
 
-object d3svgpath:
+object d3svgpath extends StandardView :
   import org.aurora.d3utils.*
 
-  val width = 400
-  val height = 400
+  // val width = 400
+  // val height = 400
 
+
+
+  override def rerender(): Unit = ???
 
   def start(): Unit = 
     console.info("Starting d3svgpath example")
@@ -36,12 +40,12 @@ object d3svgpath:
       .map{c => c.toString -> Node(s"$c",random, random)}.toMap
     val nmKeys = nm.keySet.toSeq.toJSArray
 
-    val svgG = d3Mod.select(s"#${svgpath}")
-      .attr("width", width)
-      .attr("height", height)
-      .style("border", "1px solid black")
-      .append("g")
-      .attr("transform", s"translate(${0}, ${0})")
+    // val svgG = d3Mod.select(s"#${svgpath}")
+    //   .attr("width", width)
+    //   .attr("height", height)
+    //   .style("border", "1px solid black")
+    //   .append("g")
+    //   .attr("transform", s"translate(${0}, ${0})")
 
 
     val lineGenerator = d3Mod.line[Node]()
@@ -49,7 +53,7 @@ object d3svgpath:
       .y( (n:Node,elem:Any, data:Any) => n.y )
 
    
-    val path = svgG
+    val path = svg
       .append("path")  
       .datum(nmKeys.map{(d => nm(d))})
       .attr("d",callback((d:js.Array[Node]) => lineGenerator.apply(d))) //alternative way to create the call back via extension method. not sure which way I like better
@@ -58,7 +62,7 @@ object d3svgpath:
       .attr("stroke-width", 3)
   
 
-    val nodeGroups = svgG.
+    val nodeGroups = svg.
        selectAll[SVGCircleElement, String]("circle")
         .data(nmKeys)
         .join("g")

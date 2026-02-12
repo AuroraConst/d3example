@@ -13,43 +13,34 @@ import typings.d3Axis.mod.Axis
  * Main notes:
   Watch how Select[?,?,?,?] changes with "builder" operations, like data()
 */
+import org.aurora.hldesign.StandardView
 
-object d3svgaxis:
+object d3svgaxis extends StandardView :
 
-  val width = 400
-  val height = 400
-
+  override def rerender(): Unit = ???
 
   val data = (1 to 150).map{_.toDouble}.toJSArray
-  val datay = (1 to 50).map{_.toDouble * 2}.toJSArray
+  val datay = (1 to 150).map{_.toDouble * 2}.toJSArray
 
   def start(): Unit = 
     console.info("Starting d3svgsimple example")
-
-    
-    
-    val svg = d3Mod.select(s"#${org.aurora.svgsimple}")
-      .attr("width", width)
-      .attr("height", height)
-      .style("border", "1px solid black")
-
-
-    val xScale = d3Mod.scaleLinear()
+  
+    lazy val xScale = d3Mod.scaleLinear()
       .domain(js.Array(data.min,data.max))
-      .range(js.Array(0, width-5).map{_.toDouble})
-    val yScale = d3Mod.scaleLinear()
+      .range(js.Array(0, width).map{_.toDouble})
+    lazy val yScale = d3Mod.scaleLinear()
       .domain(js.Array(datay.min,datay.max))
-      .range(js.Array(height-5, 0).map{_.toDouble})  
+      .range(js.Array(height, 0).map{_.toDouble})  
 
 
     import org.aurora.d3utils.*
     val xAxis = d3Mod.axisTop(xScale.toAxisScale)//.ticks(25)
-    val yAxis = d3Mod.axisRight(yScale.toAxisScale)//.ticks(15)
+     val yAxis = d3Mod.axisRight(yScale.toAxisScale)//.ticks(15)
 
     
     svg.append("g")
       .data(data)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
-       .attr("transform", s"translate(0, $height)")
+      .transform(0,height)
       .callAxis(xAxis)
       .asInstanceOf[TRANSITION]
         .transition()
@@ -59,7 +50,6 @@ object d3svgaxis:
     svg.append("g")
       .data(data)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
        .transform(0,0)
-      //  .attr("transform", s"translate(0, $height)")
       .callAxis(yAxis)
       .asInstanceOf[TRANSITION]
         .transition()
