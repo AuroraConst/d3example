@@ -5,11 +5,20 @@ import typings.d3.mod as d3Mod
 import typings.std.global.{console, window}
 
 import scala.scalajs.js
+import org.scalajs.dom.{SVGCircleElement, HTMLElement}
+import typings.d3Scale.mod.NumberValue
 import js.JSConverters.*
+import typings.d3Axis.mod.{AxisScale,AxisDomain}
 import typings.d3Selection.mod.Selection_
+import typings.d3Axis.mod.Axis
+import org.scalajs.dom.HTMLHtmlElement
+import org.scalajs.dom.SVGGElement
+import org.scalajs.dom.SVGSVGElement
 import org.aurora.d3utils.*
 import scala.util.Random
 import org.scalajs.dom.Element
+import typings.d3Shape.mod.Line_
+import typings.d3Selection.mod.ArrayLike
 import typings.d3Force.mod.Force
 /**
  * Main notes:
@@ -76,11 +85,6 @@ object d3svgforcelink:
       .force("charge",d3Mod.forceManyBody().strength(-50).asInstanceOf[Force[js.Object&js.Dynamic,Unit]])  //this is how you set the charge force, using a callback to convert the node data to a forceManyBody
       .force("center",d3Mod.forceCenter(width/2,height/2).asInstanceOf[Force[js.Object&js.Dynamic,Unit]])  //this is how you set the center force, using a callback to convert the node data to a forceCenter
       .on("tick", ticked )
-
-
-
-    
-
 
 
 

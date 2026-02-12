@@ -93,7 +93,7 @@ object d3svgpath:
     type TRANSITION = Transition_[js.Dynamic, Any, Any, Any]
 
 
-    def transitionLambda: ValueFn[js.Dynamic,Any,Unit] = //VFnJSDynamic[Any,Unit] = 
+    def transitionLambda: VFnJSDynamic[Any,Unit] =
      (thisArg:js.Dynamic,d:Any,index:Double,data:Any)  => {
 
         d3Mod.active(thisArg.asInstanceOf[Element])
