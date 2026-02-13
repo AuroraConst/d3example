@@ -28,12 +28,6 @@ import org.aurora.hldesign.StandardSVGView
 */
 //note the module name will correspond to the id on the svg tag in index.html
 object d3svgforcelink extends StandardSVGView :
-  // lazy val svg = d3Mod.select(s"#${nameid}")
-  //   .attr("width", width)
-  //   .attr("height", height)
-  //   .style("border", "1px solid black")
-  //   .append("g")
-  //   .attr("transform", s"translate(${0}, ${0})")
 
   lazy val node =  svg.append("g")
     .selectAll("circle")
@@ -84,10 +78,11 @@ object d3svgforcelink extends StandardSVGView :
     console.info("Starting d3svgforcelink example")
 
     //event handling when text box changes
-    nameVar.signal.foreach{ _ => 
+    HelloWorld.nameVar.signal.foreach{ _ => 
+      console.info("nameVar changed, rerendering simulation")
       rerender()
     }  //restart the simulation when the nameVar changes, just to show how you can interact with the simulation from laminar. not sure if this is the best way to do it, but it works for demonstration purposes.
-    
+
   def rerender(): Unit = 
     val newNodes = init() //create new random nodes
     node.data(  newNodes) 

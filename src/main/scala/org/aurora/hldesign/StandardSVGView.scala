@@ -19,7 +19,7 @@ trait StandardSVGView :
   lazy val width = 400
 
   given Owner = ManualOwner() //owner needed for laminar foreach side effects
-  val nameVar = HelloWorld.nameVar   //standardize access to Laminar based  event handling from form events
+  val nameVar = HelloWorld.nameVar   //standardize access to adding event handling from form events
 
   //access to module name that corresponds to the id property within svg tag in index.html
   lazy val nameid = 
@@ -31,7 +31,7 @@ trait StandardSVGView :
     .append("g")
     .attr("width", width)
     .attr("height", height)
-    .style("border", "1px solid black") //This doesn't do anything
+    .style("border", "1px solid black")
     .attr("transform", s"translate(${0}, ${0})")
 
   def start(): Unit  //standardize starting
