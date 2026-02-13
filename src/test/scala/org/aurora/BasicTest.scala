@@ -8,9 +8,4 @@ import matchers._
 
 class BasicTest extends AnyWordSpec with should.Matchers {
 
-    "Euler Test" should {
-        "equal itself" in {
-            1 shouldEqual 1
-        }
-    }
 }   

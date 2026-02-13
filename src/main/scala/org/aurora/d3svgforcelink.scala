@@ -84,11 +84,10 @@ object d3svgforcelink extends StandardSVGView :
     console.info("Starting d3svgforcelink example")
 
     //event handling when text box changes
-    HelloWorld.nameVar.signal.foreach{ _ => 
-      console.info("nameVar changed, rerendering simulation")
+    nameVar.signal.foreach{ _ => 
       rerender()
     }  //restart the simulation when the nameVar changes, just to show how you can interact with the simulation from laminar. not sure if this is the best way to do it, but it works for demonstration purposes.
-
+    
   def rerender(): Unit = 
     val newNodes = init() //create new random nodes
     node.data(  newNodes) 

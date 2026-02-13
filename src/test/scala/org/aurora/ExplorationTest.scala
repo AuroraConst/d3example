@@ -1,29 +1,18 @@
 package org.aurora
 
 
-object ab
-class FirstTest extends BasicTest {
-  def strip(s:String): String = s.stripSuffix("$")
+class ProjectEulerTest extends BasicTest {
 
-  extension(o:Any)
-    def cleanname =
-      val sn = o.getClass().getSimpleName()
-      sn.indexOf("$") match
-        case -1 => sn
-        case i => sn.substring(0, i)
+  "project euler #1 " should {
+    "3 or 5" in {
+      (1 to 999).filter{n => n % 3 == 0 || n % 5 == 0}.sum should be (233168)     
 
 
-      
+      (3 to 999 by 3).sum + (5 to 999 by 5).sum - (15 to 999 by 15).sum should be (233168)
 
-  "access to scala module name" should {
-    "work like this" in {
-      
-      object abcde
-      
-      
+      val size = (3 to 999).count{n => n % 3 == 0 || n % 5 == 0}
+      info (s"size: $size")
 
-      info(s"${abcde.cleanname}") //prints "org.aurora.FirstTest$1a$"
-      info(s"${ab.cleanname}") //prints "org.aurora.FirstTest$1a$"
     }
   }
 }
