@@ -24,6 +24,7 @@ val _ = Stylesheet // force initialization to prevent DCE (Dead Code Elimination
   d3svgaxis.start()
   d3svgforcelink.start()
   d3svgbarchart.start()
+  d3svgdraftideas.start()
 
 
 

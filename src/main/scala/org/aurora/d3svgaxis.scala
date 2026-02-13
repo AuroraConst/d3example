@@ -35,7 +35,7 @@ object d3svgaxis extends StandardSVGView :
 
     import org.aurora.d3utils.*
     val xAxis = d3Mod.axisTop(xScale.toAxisScale)//.ticks(25)
-     val yAxis = d3Mod.axisRight(yScale.toAxisScale)//.ticks(15)
+    val yAxis = d3Mod.axisRight(yScale.toAxisScale)//.ticks(15)
 
     
     svg.append("g")
