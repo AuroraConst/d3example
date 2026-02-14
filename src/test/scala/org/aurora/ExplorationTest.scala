@@ -15,8 +15,10 @@ class ExplorationTest extends BasicTest {
   "access to scala module name" should {
     "work like this" in {
       object abcde
-      info(s"${abcde.cleanname}") //prints "org.aurora.FirstTest$1a$"
-      info(s"${ab.cleanname}") //prints "org.aurora.FirstTest$1a$"
+
+      abcde.cleanname shouldBe "abcde"
+      ab.cleanname shouldBe "ab"
+
     }
   }
 }
