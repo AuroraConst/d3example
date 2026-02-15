@@ -11,11 +11,13 @@ import typings.d3Transition.mod.Transition_
 import typings.d3Selection.mod.Selection_
 
 import typings.d3Shape.mod.Line_
+import typings.d3Color.anon.A
 
 package object d3utils:
   val temp = "x"
   type SELECTIONTYPE[DATUM] = Selection_[SVGGElement|SVGSVGElement, DATUM, HTMLElement, Any]
-  type SELECTIONANY = Selection_[SVGGElement|SVGSVGElement, Any,Any,Any]
+  type SELECTIONANY[DATUM] = Selection_[Any, DATUM, Any, Any]
+  type SELECTIONELEMANY = Selection_[SVGGElement|SVGSVGElement, Any, Any, Any]
   type TRANSITION = Transition_[js.Dynamic, Any, Any, Any]
 
     //TODO: STANDARDIZE ValueFn across examples
@@ -28,12 +30,13 @@ package object d3utils:
     d.id.toString
   }
 
-  extension [DATUM](s:Selection_[SVGGElement|SVGSVGElement,DATUM,HTMLElement,Any])  
+  extension [DATUM](s:Selection_[SVGGElement|SVGSVGElement,DATUM,Any,Any])  
     def applyAxis(axis:Axis[DATUM]): Unit = 
-      axis.apply(s.asInstanceOf[SELECTIONANY])
+      axis.apply(s.asInstanceOf[SELECTIONELEMANY])
 
-    def callAxis(axis:Axis[DATUM]): Selection_[SVGGElement|SVGSVGElement,DATUM,HTMLElement,Any] = 
-      s.call( (sel:SELECTIONTYPE[DATUM], a:Axis[DATUM]) => a.apply(sel.asInstanceOf[SELECTIONANY]) //this is the logic to draw the axis
+    // def callAxis(axis:Axis[DATUM]): Selection_[SVGGElement|SVGSVGElement,DATUM,HTMLElement,Any] = 
+    def callAxis(axis:Axis[DATUM]): Selection_[Any,DATUM,Any,Any] =   
+      s.call( (sel:SELECTIONTYPE[DATUM], a:Axis[DATUM]) => a.apply(sel.asInstanceOf[SELECTIONELEMANY]) //this is the logic to draw the axis
        , axis)
 
     def transform(x:Int,y:Int)  = s.attr("transform", s"translate($x, $y)")

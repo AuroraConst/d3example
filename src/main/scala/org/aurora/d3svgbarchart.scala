@@ -23,7 +23,7 @@ object d3svgbarchart extends StandardSVGView :
   val datay = (1 to 300).map{_.toDouble * 2}.toJSArray
 
   def start(): Unit = 
-    console.info(s"Starting $nameid example")
+    console.info(s"Starting $basename example")
   
     lazy val xScale = d3Mod.scaleLinear()
       .domain(js.Array(data.min,data.max))

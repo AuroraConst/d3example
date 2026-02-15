@@ -20,13 +20,16 @@ import org.aurora.hldesign.{StandardSVGView,AxisTrait}
   */
 object d3svgdraftideas extends AxisTrait with StandardSVGView :
 
+  // override lazy val width = 100
+  // override lazy val height = 100
+
   override def rerender(): Unit = ???
 
-  def start(): Unit = 
-    console.info(s"Starting $nameid example")
+  override def start(): Unit = 
+    console.info(s"Starting $basename example")
     
     // background
-    showBackground("yellow")
+    showBackground("cyan")
     showAxis
 
     def showBackground(color:String) = 

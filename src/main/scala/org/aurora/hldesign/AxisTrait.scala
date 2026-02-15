@@ -13,6 +13,7 @@ trait AxisTrait :
   
   val datax = (1 to 300).map{_.toDouble}.toJSArray
   val datay = (1 to 300).map{_.toDouble * 2}.toJSArray
+
  
   def  xScale(xStart:Int=0, _width:Int=width)  = d3Mod.scaleLinear()
       .domain(js.Array(datax.min,datax.max))
@@ -28,7 +29,22 @@ trait AxisTrait :
 
 
   lazy val showAxis =  
+    //ATTEMPTING IDOMATIC SELECT JOIN PATTERN
+    //TODO READ THIS GREAT SUMMARY CAREFULLY !! https://bost.ocks.org/mike/join/
+    svg.selectAll("#xAxis")
+      .data(datax)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
+      .enter() //enter selection (only for the missing element
+      .append("g")
+      .attr("id","xAxis")
+      .callAxis(xAxis)
+    //   .transform(0,height)
+    //   .merge(svg.selectAll("#xAxis")) //merge back to the main selection
+    //   .asInstanceOf[TRANSITION]
+    //     .transition()
+    //     .duration(2000)
+    //     .style("color","red")
     svg.append("g")
+      .attr("id","xAxis")
       .data(datax)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
       .transform(0,height)
       .callAxis(xAxis)
@@ -38,9 +54,14 @@ trait AxisTrait :
         .style("color","red")
 
     svg.append("g")
+      .attr("id","yAxis")
       .data(datay)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
        .transform(0,0)
       .callAxis(yAxis)
+      .asInstanceOf[TRANSITION]
+        .transition()
+        .duration(2000)
+        .style("color","red")
 
 
 
