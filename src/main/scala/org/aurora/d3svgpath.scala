@@ -28,7 +28,7 @@ object d3svgpath extends StandardSVGView :
 
   override def rerender(): Unit = ???
 
-  def start(): Unit = 
+  override def start(): Unit = 
     console.info("Starting d3svgpath example")
 
 

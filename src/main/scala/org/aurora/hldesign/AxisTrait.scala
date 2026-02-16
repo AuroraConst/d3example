@@ -36,6 +36,7 @@ trait AxisTrait :
       .enter() //enter selection (only for the missing element
       .append("g")
       .attr("id","xAxis")
+      .asInstanceOf[Selection_[Any, Double, Any, Any]]
       .callAxis(xAxis)
     //   .transform(0,height)
     //   .merge(svg.selectAll("#xAxis")) //merge back to the main selection
@@ -45,8 +46,10 @@ trait AxisTrait :
     //     .style("color","red")
     svg.append("g")
       .attr("id","xAxis")
-      .data(datax)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
+      .data(datax)
+      .asInstanceOf[SELECTIONANY[Double]]
       .transform(0,height)
+      .asInstanceOf[Selection_[Any, Double, Any, Any]]
       .callAxis(xAxis)
       .asInstanceOf[TRANSITION]
         .transition()
@@ -56,6 +59,7 @@ trait AxisTrait :
     svg.append("g")
       .attr("id","yAxis")
       .data(datay)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
+       .asInstanceOf[SELECTIONANY[Double]]
        .transform(0,0)
       .callAxis(yAxis)
       .asInstanceOf[TRANSITION]

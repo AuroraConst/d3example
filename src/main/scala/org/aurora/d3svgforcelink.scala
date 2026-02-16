@@ -74,7 +74,7 @@ object d3svgforcelink extends StandardSVGView :
     .on("tick", ticked )
 
 
-  def start(): Unit = 
+  override def start(): Unit = 
     console.info("Starting d3svgforcelink example")
 
     //event handling when text box changes

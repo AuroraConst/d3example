@@ -12,7 +12,7 @@ import typings.d3Axis.mod.{AxisScale,AxisDomain}
 
 package object aurora :
   //these are the ids of the dom elements in index.html
-  val svgcircles         = "d3circles"
+  val svgcircles    = "d3circles"
   val canvasId      = "d3canvas"
   val svgaxis       = "d3svgaxis"
   val svgpath       = "d3svgpath"
@@ -26,9 +26,6 @@ package object aurora :
     def toNumberValue: NumberValue = 
       val nv:NumberValue = i.toDouble; 
       nv
-
-    
-
   
   given CanvasRenderingContext2D = CanvasContext.context(canvasId) //see index.html
   type Array[DATUM] = js.Array[DATUM] | ArrayLike[DATUM]

@@ -27,7 +27,7 @@ object d3svgcircles extends StandardSVGView :
 
 
 
-  def start(): Unit = 
+  override def start(): Unit = 
     console.info("Starting d3svg example")
     // val svg = d3Mod.select(s"#$svgcircles")
     //   .attr("width", width)

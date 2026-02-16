@@ -15,9 +15,13 @@ import typings.d3Color.anon.A
 
 package object d3utils:
   val temp = "x"
-  type SELECTIONTYPE[DATUM] = Selection_[SVGGElement|SVGSVGElement, DATUM, HTMLElement, Any]
+  type ElementSVG = SVGGElement|SVGSVGElement
+  type SELECTIONTYPE[SVG,DATUM, E] = Selection_[SVG, DATUM, E, Any]
   type SELECTIONANY[DATUM] = Selection_[Any, DATUM, Any, Any]
   type SELECTIONELEMANY = Selection_[SVGGElement|SVGSVGElement, Any, Any, Any]
+  type SELECTIONANYLAMBDA[DATUM] = (org.aurora.d3utils.SELECTIONTYPE[Element, DATUM, Any], typings.d3Axis.mod.Axis[DATUM]) => Unit
+
+
   type TRANSITION = Transition_[js.Dynamic, Any, Any, Any]
 
     //TODO: STANDARDIZE ValueFn across examples
@@ -30,14 +34,16 @@ package object d3utils:
     d.id.toString
   }
 
-  extension [DATUM](s:Selection_[SVGGElement|SVGSVGElement,DATUM,Any,Any])  
+  extension [DATUM](s:Selection_[Any,DATUM,Any,Any])  
     def applyAxis(axis:Axis[DATUM]): Unit = 
       axis.apply(s.asInstanceOf[SELECTIONELEMANY])
 
     // def callAxis(axis:Axis[DATUM]): Selection_[SVGGElement|SVGSVGElement,DATUM,HTMLElement,Any] = 
     def callAxis(axis:Axis[DATUM]): Selection_[Any,DATUM,Any,Any] =   
-      s.call( (sel:SELECTIONTYPE[DATUM], a:Axis[DATUM]) => a.apply(sel.asInstanceOf[SELECTIONELEMANY]) //this is the logic to draw the axis
-       , axis)
+      s.call( 
+       ( (sel:Selection_[Any,DATUM,Any,Any], a:Any) => 
+        a.asInstanceOf[typings.d3Axis.mod.Axis[DATUM]].apply(s.asInstanceOf[d3utils.SELECTIONELEMANY]))
+       , axis.asInstanceOf[Any])
 
     def transform(x:Int,y:Int)  = s.attr("transform", s"translate($x, $y)")
 

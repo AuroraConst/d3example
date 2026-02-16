@@ -22,7 +22,7 @@ object d3svgaxis extends StandardSVGView :
   val data = (1 to 150).map{_.toDouble}.toJSArray
   val datay = (1 to 150).map{_.toDouble * 2}.toJSArray
 
-  def start(): Unit = 
+  override def start(): Unit = 
     console.info("Starting d3svgsimple example")
   
     lazy val xScale = d3Mod.scaleLinear()
@@ -39,7 +39,8 @@ object d3svgaxis extends StandardSVGView :
 
     
     svg.append("g")
-      .data(data)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
+      .data(data)
+      .asInstanceOf[SELECTIONANY[Double]]  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
       .transform(0,height)
       .callAxis(xAxis)
       .asInstanceOf[TRANSITION]
@@ -48,7 +49,8 @@ object d3svgaxis extends StandardSVGView :
         .style("color","red")
 
     svg.append("g")
-      .data(data)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
+      .data(data)
+      .asInstanceOf[SELECTIONANY[Double]]  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
        .transform(0,0)
       .callAxis(yAxis)
       .asInstanceOf[TRANSITION]
