@@ -31,6 +31,7 @@ object d3svgdraftideas extends AxisTrait with StandardSVGView :
     // background
     showBackground("cyan")
     showAxis
+    showText("join,enter,exit: https://bost.ocks.org/mike/join/")
 
     def showBackground(color:String) = 
       svg
@@ -38,6 +39,21 @@ object d3svgdraftideas extends AxisTrait with StandardSVGView :
       .attr("width", width)
       .attr("height", height)
       .style("fill", color)
+
+
+    def showText(text: String) = 
+      import org.aurora.d3utils
+      svg.append("text")
+      .attr("x", width/2)
+      .attr("y", height/2)
+      .attr("text-anchor", "middle")
+      .attr("font-size", "16px")
+      .text(s"$text")
+      .asInstanceOf[d3utils.TRANSITION]
+      .transition()
+        .duration(2000)
+        .style("fill","blue")
+  
 
 
 

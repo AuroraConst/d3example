@@ -6,6 +6,8 @@ import typings.d3Axis.mod.{AxisScale,AxisDomain}
 import typings.d3Selection.mod.Selection_
 import typings.d3Axis.mod.Axis
 
+import org.aurora.d3utils
+
 
 trait AxisTrait :
   //self type anotation to enforce inheriting from StandardSVGView
@@ -29,44 +31,28 @@ trait AxisTrait :
 
 
   lazy val showAxis =  
-    //ATTEMPTING IDOMATIC SELECT JOIN PATTERN
-    //TODO READ THIS GREAT SUMMARY CAREFULLY !! https://bost.ocks.org/mike/join/
+    //TODO ATTEMPTING IDOMATIC SELECT JOIN PATTERN
+    //READ THIS GREAT SUMMARY CAREFULLY !! https://bost.ocks.org/mike/join/
     svg.selectAll("#xAxis")
       .data(datax)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
       .enter() //enter selection (only for the missing element
       .append("g")
       .attr("id","xAxis")
-      .asInstanceOf[Selection_[Any, Double, Any, Any]]
+      .asInstanceOf[d3utils.SELECTIONANY[Double]]
       .callAxis(xAxis)
-    //   .transform(0,height)
-    //   .merge(svg.selectAll("#xAxis")) //merge back to the main selection
-    //   .asInstanceOf[TRANSITION]
-    //     .transition()
-    //     .duration(2000)
-    //     .style("color","red")
     svg.append("g")
       .attr("id","xAxis")
       .data(datax)
-      .asInstanceOf[SELECTIONANY[Double]]
+      .asInstanceOf[d3utils.SELECTIONANY[Double]]
       .transform(0,height)
-      .asInstanceOf[Selection_[Any, Double, Any, Any]]
       .callAxis(xAxis)
-      .asInstanceOf[TRANSITION]
-        .transition()
-        .duration(2000)
-        .style("color","red")
 
     svg.append("g")
       .attr("id","yAxis")
       .data(datay)  //note the type changes to SELECTION_[?,?,?,?].  without this call, the type is SELECTION_[?,Nothing,?,?,?]
-       .asInstanceOf[SELECTIONANY[Double]]
-       .transform(0,0)
+      .asInstanceOf[d3utils.SELECTIONANY[Double]]
+      .transform(0,0)
       .callAxis(yAxis)
-      .asInstanceOf[TRANSITION]
-        .transition()
-        .duration(2000)
-        .style("color","red")
-
 
 
 
